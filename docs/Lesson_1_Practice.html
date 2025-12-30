@@ -1,0 +1,2076 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Practice: The Golden Rule of Talking to AI 🎮</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-dark: #0f0f1a;
+            --bg-card: #1a1a2e;
+            --accent-cyan: #00d9ff;
+            --accent-pink: #ff2e97;
+            --accent-gold: #ffd700;
+            --accent-green: #00ff88;
+            --accent-purple: #a855f7;
+            --accent-blue: #3b82f6;
+            --accent-orange: #f59e0b;
+            --text-primary: #ffffff;
+            --text-secondary: #a0a0b8;
+            --gradient-1: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            --gradient-2: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            --gradient-3: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+            --gradient-cyber: linear-gradient(135deg, #0f0f1a 0%, #1a1a2e 50%, #2d1b4e 100%);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Outfit', sans-serif;
+            background: var(--gradient-cyber);
+            color: var(--text-primary);
+            line-height: 1.7;
+            overflow-x: hidden;
+            min-height: 100vh;
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                radial-gradient(circle at 20% 80%, rgba(0, 217, 255, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(255, 46, 151, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 40% 40%, rgba(168, 85, 247, 0.05) 0%, transparent 40%);
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        /* Header */
+        header {
+            text-align: center;
+            padding: 60px 20px 40px;
+            position: relative;
+        }
+
+        .lesson-badge {
+            display: inline-block;
+            background: var(--gradient-3);
+            padding: 8px 24px;
+            border-radius: 50px;
+            font-size: 0.9em;
+            font-weight: 600;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            margin-bottom: 20px;
+            animation: glow 2s ease-in-out infinite alternate;
+        }
+
+        @keyframes glow {
+            from { box-shadow: 0 0 20px rgba(0, 217, 255, 0.3); }
+            to { box-shadow: 0 0 40px rgba(0, 217, 255, 0.6); }
+        }
+
+        header h1 {
+            font-size: 3em;
+            font-weight: 800;
+            background: linear-gradient(135deg, var(--accent-cyan), var(--accent-green), var(--accent-gold));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 20px;
+        }
+
+        header .subtitle {
+            font-size: 1.3em;
+            color: var(--text-secondary);
+            font-weight: 300;
+        }
+
+        /* Progress Bar */
+        .progress-container {
+            background: var(--bg-card);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 16px;
+            padding: 25px 30px;
+            margin: 30px 0;
+            position: sticky;
+            top: 20px;
+            z-index: 100;
+            backdrop-filter: blur(10px);
+        }
+
+        .progress-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .progress-title {
+            font-size: 1.1em;
+            font-weight: 600;
+            color: var(--accent-cyan);
+        }
+
+        .progress-stats {
+            font-size: 0.95em;
+            color: var(--text-secondary);
+        }
+
+        .progress-stats span {
+            color: var(--accent-gold);
+            font-weight: 700;
+        }
+
+        .reset-btn {
+            background: transparent;
+            border: 1px solid rgba(239, 68, 68, 0.4);
+            color: #fca5a5;
+            padding: 6px 14px;
+            border-radius: 8px;
+            font-size: 0.8em;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-left: 15px;
+        }
+
+        .reset-btn:hover {
+            background: rgba(239, 68, 68, 0.15);
+            border-color: #ef4444;
+            color: #ef4444;
+        }
+
+        .progress-bar {
+            height: 12px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--accent-cyan), var(--accent-green));
+            border-radius: 10px;
+            width: 0%;
+            transition: width 0.5s ease;
+        }
+
+        .challenge-dots {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 15px;
+            padding: 0 10px;
+        }
+
+        .challenge-dot {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.1);
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 0.9em;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .challenge-dot.active {
+            border-color: var(--accent-cyan);
+            background: rgba(0, 217, 255, 0.2);
+            color: var(--accent-cyan);
+        }
+
+        .challenge-dot.completed {
+            border-color: var(--accent-green);
+            background: var(--accent-green);
+            color: var(--bg-dark);
+        }
+
+        /* Challenge Sections */
+        .challenge {
+            background: var(--bg-card);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 24px;
+            padding: 50px;
+            margin: 40px 0;
+            position: relative;
+            overflow: hidden;
+            backdrop-filter: blur(10px);
+        }
+
+        .challenge::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+        }
+
+        .challenge:nth-child(1)::before { background: linear-gradient(90deg, #3b82f6, #60a5fa); }
+        .challenge:nth-child(2)::before { background: linear-gradient(90deg, #10b981, #34d399); }
+        .challenge:nth-child(3)::before { background: linear-gradient(90deg, #f59e0b, #fbbf24); }
+        .challenge:nth-child(4)::before { background: linear-gradient(90deg, #ec4899, #f472b6); }
+        .challenge:nth-child(5)::before { background: linear-gradient(90deg, #a855f7, #c084fc); }
+
+        .challenge-header {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .challenge-number {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5em;
+            font-weight: 800;
+            flex-shrink: 0;
+        }
+
+        .challenge:nth-child(1) .challenge-number { background: linear-gradient(135deg, #3b82f6, #1d4ed8); }
+        .challenge:nth-child(2) .challenge-number { background: linear-gradient(135deg, #10b981, #059669); }
+        .challenge:nth-child(3) .challenge-number { background: linear-gradient(135deg, #f59e0b, #d97706); }
+        .challenge:nth-child(4) .challenge-number { background: linear-gradient(135deg, #ec4899, #db2777); }
+        .challenge:nth-child(5) .challenge-number { background: linear-gradient(135deg, #a855f7, #9333ea); }
+
+        .challenge-title h2 {
+            font-size: 1.8em;
+            font-weight: 700;
+            margin-bottom: 5px;
+        }
+
+        .challenge-title p {
+            color: var(--text-secondary);
+            font-size: 1em;
+        }
+
+        .challenge-content p {
+            font-size: 1.1em;
+            color: var(--text-secondary);
+            margin-bottom: 25px;
+        }
+
+        /* Challenge 1: S.P.E.C. Matcher */
+        .spec-matcher {
+            display: grid;
+            grid-template-columns: auto 1fr;
+            gap: 20px;
+            align-items: start;
+        }
+
+        .spec-letters {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .spec-letter-btn {
+            width: 70px;
+            height: 70px;
+            border-radius: 16px;
+            border: 3px solid rgba(255, 255, 255, 0.2);
+            background: rgba(255, 255, 255, 0.05);
+            font-size: 2em;
+            font-weight: 800;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            color: var(--text-primary);
+        }
+
+        .spec-letter-btn:hover {
+            transform: scale(1.05);
+        }
+
+        .spec-letter-btn.selected {
+            transform: scale(1.1);
+            box-shadow: 0 0 30px currentColor;
+        }
+
+        .spec-letter-btn.matched {
+            opacity: 0.5;
+            cursor: default;
+        }
+
+        .spec-letter-btn[data-letter="S"] { color: #3b82f6; border-color: #3b82f6; }
+        .spec-letter-btn[data-letter="P"] { color: #10b981; border-color: #10b981; }
+        .spec-letter-btn[data-letter="E"] { color: #f59e0b; border-color: #f59e0b; }
+        .spec-letter-btn[data-letter="C"] { color: #ec4899; border-color: #ec4899; }
+
+        .spec-definitions {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .spec-def-btn {
+            padding: 20px 25px;
+            border-radius: 16px;
+            border: 2px solid rgba(255, 255, 255, 0.15);
+            background: rgba(255, 255, 255, 0.03);
+            text-align: left;
+            font-size: 1.05em;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            color: var(--text-secondary);
+        }
+
+        .spec-def-btn:hover:not(.matched) {
+            border-color: var(--accent-cyan);
+            background: rgba(0, 217, 255, 0.1);
+        }
+
+        .spec-def-btn.matched {
+            cursor: default;
+        }
+
+        .spec-def-btn.correct {
+            border-color: var(--accent-green);
+            background: rgba(0, 255, 136, 0.15);
+            color: var(--accent-green);
+        }
+
+        .spec-def-btn.incorrect {
+            border-color: #ef4444;
+            background: rgba(239, 68, 68, 0.15);
+            color: #fca5a5;
+            animation: shake 0.5s ease;
+        }
+
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-10px); }
+            75% { transform: translateX(10px); }
+        }
+
+        /* Challenge 2: Prompt Analyzer */
+        .analyzer-card {
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 20px;
+            padding: 30px;
+            margin: 25px 0;
+        }
+
+        .analyzer-prompt {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 1.1em;
+            color: var(--accent-cyan);
+            background: #0d0d14;
+            padding: 20px;
+            border-radius: 12px;
+            margin-bottom: 25px;
+            border-left: 4px solid var(--accent-purple);
+        }
+
+        .spec-checklist {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .spec-check-item {
+            padding: 15px;
+            border-radius: 12px;
+            border: 2px solid rgba(255, 255, 255, 0.15);
+            background: rgba(255, 255, 255, 0.03);
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .spec-check-item:hover {
+            transform: translateY(-3px);
+        }
+
+        .spec-check-item .letter {
+            font-size: 1.8em;
+            font-weight: 800;
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        .spec-check-item .label {
+            font-size: 0.85em;
+            color: var(--text-secondary);
+        }
+
+        .spec-check-item[data-spec="S"] .letter { color: #3b82f6; }
+        .spec-check-item[data-spec="P"] .letter { color: #10b981; }
+        .spec-check-item[data-spec="E"] .letter { color: #f59e0b; }
+        .spec-check-item[data-spec="C"] .letter { color: #ec4899; }
+
+        .spec-check-item.checked {
+            background: rgba(0, 255, 136, 0.15);
+            border-color: var(--accent-green);
+        }
+
+        .spec-check-item.checked .letter {
+            color: var(--accent-green) !important;
+        }
+
+        .analyzer-submit {
+            display: flex;
+            gap: 15px;
+            align-items: center;
+        }
+
+        .btn {
+            padding: 15px 35px;
+            border-radius: 12px;
+            border: none;
+            font-size: 1.05em;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-family: 'Outfit', sans-serif;
+        }
+
+        .btn-primary {
+            background: var(--gradient-2);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(255, 46, 151, 0.3);
+        }
+
+        .btn-secondary {
+            background: rgba(255, 255, 255, 0.1);
+            color: var(--text-secondary);
+            border: 2px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .btn-secondary:hover {
+            background: rgba(255, 255, 255, 0.15);
+            color: var(--text-primary);
+        }
+
+        .analyzer-feedback {
+            margin-top: 20px;
+            padding: 20px;
+            border-radius: 12px;
+            display: none;
+        }
+
+        .analyzer-feedback.show {
+            display: block;
+            animation: fadeIn 0.4s ease;
+        }
+
+        .analyzer-feedback.success {
+            background: rgba(0, 255, 136, 0.15);
+            border: 1px solid var(--accent-green);
+            color: var(--accent-green);
+        }
+
+        .analyzer-feedback.partial {
+            background: rgba(245, 158, 11, 0.15);
+            border: 1px solid var(--accent-orange);
+            color: var(--accent-orange);
+        }
+
+        .analyzer-feedback.error {
+            background: rgba(239, 68, 68, 0.15);
+            border: 1px solid #ef4444;
+            color: #fca5a5;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Challenge 3: Prompt Makeover */
+        .makeover-card {
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 20px;
+            padding: 30px;
+            margin: 25px 0;
+        }
+
+        .makeover-original {
+            background: rgba(239, 68, 68, 0.1);
+            border: 2px solid #ef4444;
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 25px;
+        }
+
+        .makeover-original .label {
+            font-size: 0.85em;
+            font-weight: 600;
+            color: #ef4444;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 10px;
+        }
+
+        .makeover-original .prompt {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 1.1em;
+            color: #fca5a5;
+        }
+
+        .makeover-input-area {
+            margin-bottom: 20px;
+        }
+
+        .makeover-input-area label {
+            display: block;
+            font-size: 0.9em;
+            font-weight: 600;
+            color: var(--accent-green);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 10px;
+        }
+
+        .makeover-textarea {
+            width: 100%;
+            min-height: 120px;
+            padding: 20px;
+            border-radius: 12px;
+            border: 2px solid rgba(0, 255, 136, 0.3);
+            background: #0d0d14;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 1em;
+            color: var(--accent-cyan);
+            resize: vertical;
+            transition: all 0.3s ease;
+        }
+
+        .makeover-textarea:focus {
+            outline: none;
+            border-color: var(--accent-green);
+            box-shadow: 0 0 20px rgba(0, 255, 136, 0.2);
+        }
+
+        .makeover-textarea::placeholder {
+            color: rgba(160, 160, 184, 0.5);
+        }
+
+        /* AI Response Box */
+        .ai-response-area {
+            margin-top: 25px;
+            padding-top: 25px;
+            border-top: 1px dashed rgba(255, 255, 255, 0.15);
+        }
+
+        .ai-response-area label {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 0.9em;
+            font-weight: 600;
+            color: var(--accent-cyan);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 10px;
+        }
+
+        .ai-response-area label .icon {
+            font-size: 1.2em;
+        }
+
+        .ai-response-textarea {
+            width: 100%;
+            min-height: 150px;
+            padding: 20px;
+            border-radius: 12px;
+            border: 2px solid rgba(0, 217, 255, 0.3);
+            background: linear-gradient(135deg, #0d0d14 0%, #12121f 100%);
+            font-family: 'Outfit', sans-serif;
+            font-size: 0.95em;
+            color: var(--text-primary);
+            resize: vertical;
+            transition: all 0.3s ease;
+            line-height: 1.6;
+        }
+
+        .ai-response-textarea:focus {
+            outline: none;
+            border-color: var(--accent-cyan);
+            box-shadow: 0 0 20px rgba(0, 217, 255, 0.2);
+        }
+
+        .ai-response-textarea::placeholder {
+            color: rgba(160, 160, 184, 0.5);
+        }
+
+        .response-comparison {
+            display: none;
+            margin-top: 20px;
+            padding: 20px;
+            background: rgba(0, 217, 255, 0.05);
+            border: 1px solid rgba(0, 217, 255, 0.2);
+            border-radius: 12px;
+        }
+
+        .response-comparison.show {
+            display: block;
+            animation: fadeIn 0.4s ease;
+        }
+
+        .response-comparison h4 {
+            color: var(--accent-cyan);
+            margin-bottom: 15px;
+            font-size: 1em;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .response-comparison p {
+            color: var(--text-secondary);
+            font-size: 0.95em;
+            margin: 0;
+        }
+
+        .copy-prompt-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px 20px;
+            border-radius: 8px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            background: rgba(255, 255, 255, 0.05);
+            color: var(--text-secondary);
+            font-size: 0.85em;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 10px;
+        }
+
+        .copy-prompt-btn:hover {
+            background: rgba(0, 217, 255, 0.1);
+            border-color: var(--accent-cyan);
+            color: var(--accent-cyan);
+        }
+
+        .copy-prompt-btn.copied {
+            background: rgba(0, 255, 136, 0.15);
+            border-color: var(--accent-green);
+            color: var(--accent-green);
+        }
+
+        .spec-live-check {
+            display: flex;
+            gap: 12px;
+            margin: 20px 0;
+            flex-wrap: wrap;
+        }
+
+        .spec-self-check {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px 18px;
+            border-radius: 12px;
+            font-size: 0.9em;
+            font-weight: 600;
+            background: rgba(255, 255, 255, 0.05);
+            border: 2px solid rgba(255, 255, 255, 0.15);
+            color: var(--text-secondary);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            user-select: none;
+        }
+
+        .spec-self-check:hover {
+            border-color: rgba(255, 255, 255, 0.3);
+            background: rgba(255, 255, 255, 0.08);
+        }
+
+        .spec-self-check .checkbox {
+            width: 20px;
+            height: 20px;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            border-radius: 5px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+            font-size: 0.8em;
+        }
+
+        .spec-self-check.checked {
+            background: rgba(0, 255, 136, 0.15);
+            border-color: var(--accent-green);
+            color: var(--accent-green);
+        }
+
+        .spec-self-check.checked .checkbox {
+            background: var(--accent-green);
+            border-color: var(--accent-green);
+            color: var(--bg-dark);
+        }
+
+        .spec-self-check[data-spec="S"] { --spec-color: #3b82f6; }
+        .spec-self-check[data-spec="P"] { --spec-color: #10b981; }
+        .spec-self-check[data-spec="E"] { --spec-color: #f59e0b; }
+        .spec-self-check[data-spec="C"] { --spec-color: #ec4899; }
+
+        .spec-self-check.checked[data-spec="S"] { border-color: #3b82f6; background: rgba(59, 130, 246, 0.15); color: #3b82f6; }
+        .spec-self-check.checked[data-spec="P"] { border-color: #10b981; background: rgba(16, 185, 129, 0.15); color: #10b981; }
+        .spec-self-check.checked[data-spec="E"] { border-color: #f59e0b; background: rgba(245, 158, 11, 0.15); color: #f59e0b; }
+        .spec-self-check.checked[data-spec="C"] { border-color: #ec4899; background: rgba(236, 72, 153, 0.15); color: #ec4899; }
+
+        .spec-self-check.checked[data-spec="S"] .checkbox { background: #3b82f6; border-color: #3b82f6; }
+        .spec-self-check.checked[data-spec="P"] .checkbox { background: #10b981; border-color: #10b981; }
+        .spec-self-check.checked[data-spec="E"] .checkbox { background: #f59e0b; border-color: #f59e0b; }
+        .spec-self-check.checked[data-spec="C"] .checkbox { background: #ec4899; border-color: #ec4899; }
+
+        .spec-check-label {
+            font-size: 0.85em;
+            color: var(--text-secondary);
+            margin-bottom: 8px;
+        }
+
+        .hint-box {
+            background: rgba(168, 85, 247, 0.1);
+            border: 1px solid var(--accent-purple);
+            border-radius: 12px;
+            padding: 20px;
+            margin-top: 20px;
+            display: none;
+        }
+
+        .hint-box.show {
+            display: block;
+            animation: fadeIn 0.4s ease;
+        }
+
+        .hint-box h4 {
+            color: var(--accent-purple);
+            margin-bottom: 10px;
+            font-size: 1em;
+        }
+
+        .hint-box p {
+            color: var(--text-secondary);
+            font-size: 0.95em;
+            margin: 0;
+        }
+
+        .solution-box {
+            background: rgba(0, 255, 136, 0.1);
+            border: 2px solid var(--accent-green);
+            border-radius: 12px;
+            padding: 20px;
+            margin-top: 20px;
+            display: none;
+        }
+
+        .solution-box.show {
+            display: block;
+            animation: fadeIn 0.4s ease;
+        }
+
+        .solution-box h4 {
+            color: var(--accent-green);
+            margin-bottom: 10px;
+            font-size: 1em;
+        }
+
+        .solution-box .prompt {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.95em;
+            color: var(--accent-cyan);
+            background: #0d0d14;
+            padding: 15px;
+            border-radius: 8px;
+            margin-top: 10px;
+        }
+
+        /* Challenge 4: Prompt Builder */
+        .builder-area {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            margin: 25px 0;
+        }
+
+        .builder-pieces {
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 16px;
+            padding: 25px;
+        }
+
+        .builder-pieces h4 {
+            color: var(--accent-cyan);
+            margin-bottom: 20px;
+            font-size: 1.1em;
+        }
+
+        .piece-category {
+            margin-bottom: 20px;
+        }
+
+        .piece-category-label {
+            font-size: 0.8em;
+            font-weight: 600;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 10px;
+        }
+
+        .piece-options {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .piece-btn {
+            padding: 10px 18px;
+            border-radius: 10px;
+            border: 2px solid rgba(255, 255, 255, 0.15);
+            background: rgba(255, 255, 255, 0.05);
+            font-size: 0.9em;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            color: var(--text-secondary);
+        }
+
+        .piece-btn:hover {
+            border-color: var(--accent-cyan);
+            color: var(--accent-cyan);
+        }
+
+        .piece-btn.selected {
+            background: rgba(0, 217, 255, 0.2);
+            border-color: var(--accent-cyan);
+            color: var(--accent-cyan);
+        }
+
+        .builder-result {
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 16px;
+            padding: 25px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .builder-result h4 {
+            color: var(--accent-green);
+            margin-bottom: 20px;
+            font-size: 1.1em;
+        }
+
+        .built-prompt {
+            flex: 1;
+            background: #0d0d14;
+            border-radius: 12px;
+            padding: 20px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.95em;
+            color: var(--accent-cyan);
+            min-height: 150px;
+            border: 2px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .built-prompt .placeholder {
+            color: rgba(160, 160, 184, 0.4);
+            font-style: italic;
+        }
+
+        .built-prompt .piece {
+            display: inline;
+            padding: 2px 8px;
+            border-radius: 4px;
+            margin: 2px;
+        }
+
+        .built-prompt .piece-role { background: rgba(59, 130, 246, 0.3); }
+        .built-prompt .piece-task { background: rgba(16, 185, 129, 0.3); }
+        .built-prompt .piece-format { background: rgba(245, 158, 11, 0.3); }
+        .built-prompt .piece-context { background: rgba(236, 72, 153, 0.3); }
+
+        /* Challenge 5: Final Challenge */
+        .final-scenario {
+            background: linear-gradient(135deg, rgba(168, 85, 247, 0.15) 0%, rgba(59, 130, 246, 0.15) 100%);
+            border: 2px solid var(--accent-purple);
+            border-radius: 16px;
+            padding: 25px;
+            margin-bottom: 25px;
+        }
+
+        .final-scenario h4 {
+            color: var(--accent-purple);
+            margin-bottom: 15px;
+            font-size: 1.2em;
+        }
+
+        .final-scenario p {
+            color: var(--text-primary);
+            font-size: 1.05em;
+            margin: 0;
+        }
+
+        .final-textarea {
+            width: 100%;
+            min-height: 180px;
+            padding: 25px;
+            border-radius: 16px;
+            border: 2px solid var(--accent-purple);
+            background: #0d0d14;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 1em;
+            color: var(--accent-cyan);
+            resize: vertical;
+            margin: 20px 0;
+        }
+
+        .final-textarea:focus {
+            outline: none;
+            border-color: var(--accent-gold);
+            box-shadow: 0 0 30px rgba(255, 215, 0, 0.2);
+        }
+
+        .score-display {
+            text-align: center;
+            padding: 30px;
+            margin: 25px 0;
+            display: none;
+        }
+
+        .score-display.show {
+            display: block;
+            animation: celebrate 0.6s ease;
+        }
+
+        @keyframes celebrate {
+            0% { transform: scale(0.5); opacity: 0; }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); opacity: 1; }
+        }
+
+        .score-circle {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--accent-gold), var(--accent-orange));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 20px;
+            box-shadow: 0 0 50px rgba(255, 215, 0, 0.4);
+        }
+
+        .score-circle .score {
+            font-size: 3em;
+            font-weight: 800;
+            color: var(--bg-dark);
+        }
+
+        .score-label {
+            font-size: 1.3em;
+            color: var(--accent-gold);
+            font-weight: 600;
+        }
+
+        .score-breakdown {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-top: 20px;
+            flex-wrap: wrap;
+        }
+
+        .score-item {
+            padding: 10px 20px;
+            border-radius: 10px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .score-item.achieved {
+            background: rgba(0, 255, 136, 0.15);
+            border-color: var(--accent-green);
+            color: var(--accent-green);
+        }
+
+        .score-item.missed {
+            background: rgba(239, 68, 68, 0.1);
+            border-color: rgba(239, 68, 68, 0.5);
+            color: #fca5a5;
+        }
+
+        /* Completion Section */
+        .completion-section {
+            text-align: center;
+            padding: 60px 40px;
+            background: linear-gradient(135deg, rgba(255, 215, 0, 0.1) 0%, rgba(255, 46, 151, 0.1) 100%);
+            border: 2px solid var(--accent-gold);
+            border-radius: 30px;
+            margin: 50px 0;
+            display: none;
+        }
+
+        .completion-section.show {
+            display: block;
+            animation: fadeIn 0.8s ease;
+        }
+
+        .completion-section h2 {
+            font-size: 2.5em;
+            margin-bottom: 20px;
+            background: linear-gradient(135deg, var(--accent-gold), var(--accent-pink));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .completion-section p {
+            font-size: 1.2em;
+            color: var(--text-secondary);
+            margin-bottom: 30px;
+        }
+
+        .trophy {
+            font-size: 5em;
+            margin-bottom: 20px;
+            animation: bounce 2s infinite;
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-15px); }
+        }
+
+        .back-link {
+            display: inline-block;
+            color: var(--accent-cyan);
+            text-decoration: none;
+            font-size: 1.1em;
+            margin-top: 20px;
+            padding: 15px 30px;
+            border: 2px solid var(--accent-cyan);
+            border-radius: 12px;
+            transition: all 0.3s ease;
+        }
+
+        .back-link:hover {
+            background: rgba(0, 217, 255, 0.1);
+            transform: translateY(-3px);
+        }
+
+        /* Quick Reference Card */
+        .spec-reference {
+            background: var(--bg-card);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            margin-bottom: 20px;
+            overflow: hidden;
+        }
+
+        .spec-reference summary {
+            padding: 15px 20px;
+            cursor: pointer;
+            font-weight: 600;
+            color: var(--accent-cyan);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            transition: all 0.3s ease;
+        }
+
+        .spec-reference summary:hover {
+            background: rgba(0, 217, 255, 0.05);
+        }
+
+        .spec-reference[open] summary {
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .spec-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 15px;
+            padding: 20px;
+        }
+
+        .spec-grid > div {
+            text-align: center;
+            padding: 15px;
+            border-radius: 10px;
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .spec-grid > div strong {
+            font-size: 1.5em;
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        @media (max-width: 700px) {
+            .spec-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        /* Responsive */
+        @media (max-width: 900px) {
+            .builder-area {
+                grid-template-columns: 1fr;
+            }
+
+            .spec-checklist {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .spec-matcher {
+                grid-template-columns: 1fr;
+            }
+
+            .spec-letters {
+                flex-direction: row;
+                justify-content: center;
+            }
+        }
+
+        @media (max-width: 600px) {
+            header h1 {
+                font-size: 2em;
+            }
+
+            .challenge {
+                padding: 30px 20px;
+            }
+
+            .spec-checklist {
+                grid-template-columns: 1fr 1fr;
+            }
+
+            .challenge-header {
+                flex-direction: column;
+                text-align: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="lesson-badge">Practice Mode 🎮</div>
+            <h1>Master the S.P.E.C. Framework</h1>
+            <p class="subtitle">Complete 5 interactive challenges to become a prompt engineering pro!</p>
+        </header>
+
+        <!-- Progress Bar -->
+        <div class="progress-container">
+            <div class="progress-header">
+                <span class="progress-title">🎯 Your Progress</span>
+                <span class="progress-stats"><span id="completed-count">0</span> / 5 Challenges<button class="reset-btn" onclick="resetAllProgress()">🔄 Reset</button></span>
+            </div>
+            <div class="progress-bar">
+                <div class="progress-fill" id="progress-fill"></div>
+            </div>
+            <div class="challenge-dots">
+                <div class="challenge-dot active" data-challenge="1">1</div>
+                <div class="challenge-dot" data-challenge="2">2</div>
+                <div class="challenge-dot" data-challenge="3">3</div>
+                <div class="challenge-dot" data-challenge="4">4</div>
+                <div class="challenge-dot" data-challenge="5">5</div>
+            </div>
+        </div>
+
+        <!-- Quick S.P.E.C. Reference -->
+        <details class="spec-reference">
+            <summary>📖 Quick S.P.E.C. Reference (click to expand)</summary>
+            <div class="spec-grid">
+                <div><strong style="color:#3b82f6">S</strong>Simple language<br><small style="color:var(--text-secondary)">Clear, everyday words</small></div>
+                <div><strong style="color:#10b981">P</strong>Precise details<br><small style="color:var(--text-secondary)">Numbers, specifics</small></div>
+                <div><strong style="color:#f59e0b">E</strong>Explicit format<br><small style="color:var(--text-secondary)">State everything clearly</small></div>
+                <div><strong style="color:#ec4899">C</strong>Context about you<br><small style="color:var(--text-secondary)">Who you are, your goal</small></div>
+            </div>
+        </details>
+
+        <!-- Challenge 1: S.P.E.C. Matcher -->
+        <div class="challenge" id="challenge-1">
+            <div class="challenge-header">
+                <div class="challenge-number">1</div>
+                <div class="challenge-title">
+                    <h2>S.P.E.C. Matcher</h2>
+                    <p>Warm-up: Match each letter to its meaning</p>
+                </div>
+            </div>
+            <div class="challenge-content">
+                <p>Click a letter, then click its matching definition. Get all 4 correct to complete this challenge!</p>
+                
+                <div class="spec-matcher">
+                    <div class="spec-letters">
+                        <button class="spec-letter-btn" data-letter="S">S</button>
+                        <button class="spec-letter-btn" data-letter="P">P</button>
+                        <button class="spec-letter-btn" data-letter="E">E</button>
+                        <button class="spec-letter-btn" data-letter="C">C</button>
+                    </div>
+                    <div class="spec-definitions">
+                        <button class="spec-def-btn" data-answer="E">Don't assume the AI knows what you mean. State everything clearly.</button>
+                        <button class="spec-def-btn" data-answer="C">Give background info. Who are you? What's the goal?</button>
+                        <button class="spec-def-btn" data-answer="S">Use clear, everyday language. Avoid complicated words.</button>
+                        <button class="spec-def-btn" data-answer="P">Be exact about what you want. Include numbers and formats.</button>
+                    </div>
+                </div>
+                
+                <div id="matcher-feedback" class="analyzer-feedback"></div>
+            </div>
+        </div>
+
+        <!-- Challenge 2: Prompt Analyzer -->
+        <div class="challenge" id="challenge-2">
+            <div class="challenge-header">
+                <div class="challenge-number">2</div>
+                <div class="challenge-title">
+                    <h2>Prompt Analyzer</h2>
+                    <p>Rate these prompts using the S.P.E.C. framework</p>
+                </div>
+            </div>
+            <div class="challenge-content">
+                <p>For each prompt below, check the S.P.E.C. criteria that it satisfies. Then verify your answer!</p>
+                
+                <!-- Prompt 1 -->
+                <div class="analyzer-card" data-prompt="1">
+                    <div class="analyzer-prompt">
+                        "I'm a Python beginner. Write a function called 'count_vowels' that takes a string and returns the number of vowels (a, e, i, o, u). Include comments explaining each step."
+                    </div>
+                    <div class="spec-checklist">
+                        <div class="spec-check-item" data-spec="S" onclick="toggleCheck(this)">
+                            <span class="letter">S</span>
+                            <span class="label">Simple</span>
+                        </div>
+                        <div class="spec-check-item" data-spec="P" onclick="toggleCheck(this)">
+                            <span class="letter">P</span>
+                            <span class="label">Precise</span>
+                        </div>
+                        <div class="spec-check-item" data-spec="E" onclick="toggleCheck(this)">
+                            <span class="letter">E</span>
+                            <span class="label">Explicit</span>
+                        </div>
+                        <div class="spec-check-item" data-spec="C" onclick="toggleCheck(this)">
+                            <span class="letter">C</span>
+                            <span class="label">Contextual</span>
+                        </div>
+                    </div>
+                    <div class="analyzer-submit">
+                        <button class="btn btn-primary" onclick="checkAnalysis(1, ['S', 'P', 'E', 'C'])">Check Answer</button>
+                    </div>
+                    <div id="analyzer-feedback-1" class="analyzer-feedback"></div>
+                </div>
+
+                <!-- Prompt 2 -->
+                <div class="analyzer-card" data-prompt="2">
+                    <div class="analyzer-prompt">
+                        "help with loops"
+                    </div>
+                    <div class="spec-checklist">
+                        <div class="spec-check-item" data-spec="S" onclick="toggleCheck(this)">
+                            <span class="letter">S</span>
+                            <span class="label">Simple</span>
+                        </div>
+                        <div class="spec-check-item" data-spec="P" onclick="toggleCheck(this)">
+                            <span class="letter">P</span>
+                            <span class="label">Precise</span>
+                        </div>
+                        <div class="spec-check-item" data-spec="E" onclick="toggleCheck(this)">
+                            <span class="letter">E</span>
+                            <span class="label">Explicit</span>
+                        </div>
+                        <div class="spec-check-item" data-spec="C" onclick="toggleCheck(this)">
+                            <span class="letter">C</span>
+                            <span class="label">Contextual</span>
+                        </div>
+                    </div>
+                    <div class="analyzer-submit">
+                        <button class="btn btn-primary" onclick="checkAnalysis(2, ['S'])">Check Answer</button>
+                    </div>
+                    <div id="analyzer-feedback-2" class="analyzer-feedback"></div>
+                </div>
+
+                <!-- Prompt 3 (Tricky!) -->
+                <div class="analyzer-card" data-prompt="3">
+                    <div class="analyzer-prompt">
+                        "I need you to write code for a calculator app with buttons for +, -, ×, ÷"
+                    </div>
+                    <div class="spec-checklist">
+                        <div class="spec-check-item" data-spec="S" onclick="toggleCheck(this)">
+                            <span class="letter">S</span>
+                            <span class="label">Simple</span>
+                        </div>
+                        <div class="spec-check-item" data-spec="P" onclick="toggleCheck(this)">
+                            <span class="letter">P</span>
+                            <span class="label">Precise</span>
+                        </div>
+                        <div class="spec-check-item" data-spec="E" onclick="toggleCheck(this)">
+                            <span class="letter">E</span>
+                            <span class="label">Explicit</span>
+                        </div>
+                        <div class="spec-check-item" data-spec="C" onclick="toggleCheck(this)">
+                            <span class="letter">C</span>
+                            <span class="label">Contextual</span>
+                        </div>
+                    </div>
+                    <div class="analyzer-submit">
+                        <button class="btn btn-primary" onclick="checkAnalysis(3, ['S', 'P'])">Check Answer</button>
+                        <span style="color: var(--text-secondary); font-size: 0.9em; margin-left: 10px;">⚠️ This one's tricky!</span>
+                    </div>
+                    <div id="analyzer-feedback-3" class="analyzer-feedback"></div>
+                </div>
+
+                <!-- Prompt 4 -->
+                <div class="analyzer-card" data-prompt="4">
+                    <div class="analyzer-prompt">
+                        "Act as a senior Python developer. Review this code and identify 3 potential bugs. For each bug, explain why it's a problem and show the fixed version."
+                    </div>
+                    <div class="spec-checklist">
+                        <div class="spec-check-item" data-spec="S" onclick="toggleCheck(this)">
+                            <span class="letter">S</span>
+                            <span class="label">Simple</span>
+                        </div>
+                        <div class="spec-check-item" data-spec="P" onclick="toggleCheck(this)">
+                            <span class="letter">P</span>
+                            <span class="label">Precise</span>
+                        </div>
+                        <div class="spec-check-item" data-spec="E" onclick="toggleCheck(this)">
+                            <span class="letter">E</span>
+                            <span class="label">Explicit</span>
+                        </div>
+                        <div class="spec-check-item" data-spec="C" onclick="toggleCheck(this)">
+                            <span class="letter">C</span>
+                            <span class="label">Contextual</span>
+                        </div>
+                    </div>
+                    <div class="analyzer-submit">
+                        <button class="btn btn-primary" onclick="checkAnalysis(4, ['S', 'P', 'E', 'C'])">Check Answer</button>
+                    </div>
+                    <div id="analyzer-feedback-4" class="analyzer-feedback"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Challenge 3: Prompt Makeover -->
+        <div class="challenge" id="challenge-3">
+            <div class="challenge-header">
+                <div class="challenge-number">3</div>
+                <div class="challenge-title">
+                    <h2>Prompt Makeover</h2>
+                    <p>Transform vague prompts into power prompts!</p>
+                </div>
+            </div>
+            <div class="challenge-content">
+                <p>Take each weak prompt and rewrite it using all 4 S.P.E.C. criteria. Watch the indicators light up as you improve your prompt!</p>
+                
+                <div class="makeover-card" data-makeover="1">
+                    <div class="makeover-original">
+                        <div class="label">❌ Vague Prompt</div>
+                        <div class="prompt">"make a game"</div>
+                    </div>
+                    
+                    <div class="makeover-input-area">
+                        <label>✨ Your Power Prompt</label>
+                        <textarea class="makeover-textarea" id="makeover-1" placeholder="Rewrite this prompt using S.P.E.C. ...&#10;&#10;Think about:&#10;• What kind of game?&#10;• What language/format?&#10;• Who are you (your skill level)?&#10;• What specific features?"></textarea>
+                    </div>
+                    
+                    <p class="spec-check-label">✅ Check off what you included in your prompt:</p>
+                    <div class="spec-live-check" id="spec-check-1">
+                        <div class="spec-self-check" data-spec="S" onclick="toggleSelfCheck(this)">
+                            <span class="checkbox"></span>
+                            <span><strong>S</strong> - Simple language</span>
+                        </div>
+                        <div class="spec-self-check" data-spec="P" onclick="toggleSelfCheck(this)">
+                            <span class="checkbox"></span>
+                            <span><strong>P</strong> - Precise details</span>
+                        </div>
+                        <div class="spec-self-check" data-spec="E" onclick="toggleSelfCheck(this)">
+                            <span class="checkbox"></span>
+                            <span><strong>E</strong> - Explicit format</span>
+                        </div>
+                        <div class="spec-self-check" data-spec="C" onclick="toggleSelfCheck(this)">
+                            <span class="checkbox"></span>
+                            <span><strong>C</strong> - Context about you</span>
+                        </div>
+                    </div>
+                    
+                    <div style="display: flex; gap: 10px; flex-wrap: wrap;">
+                        <button class="btn btn-secondary" onclick="showHint(1)">💡 Show Hint</button>
+                        <button class="btn btn-secondary" onclick="showSolution(1)">👀 See Example</button>
+                    </div>
+                    
+                    <div class="hint-box" id="hint-1">
+                        <h4>💡 Hints</h4>
+                        <p><strong>S:</strong> Use simple words like "create" or "write"<br>
+                        <strong>P:</strong> Specify the type of game (guessing game, quiz, etc.) and features (3 lives, score tracking)<br>
+                        <strong>E:</strong> Say exactly what you want (Python code, with comments)<br>
+                        <strong>C:</strong> Mention you're a beginner learning Python</p>
+                    </div>
+                    
+                    <div class="solution-box" id="solution-1">
+                        <h4>✅ Example Power Prompt</h4>
+                        <div class="prompt">"I'm a beginner learning Python. Create a simple number guessing game where the computer picks a random number between 1 and 100, and the player has 7 tries to guess it. After each guess, tell the player if they need to go higher or lower. Include comments explaining each step of the code."</div>
+                    </div>
+                    
+                    <!-- AI Response Area -->
+                    <div class="ai-response-area">
+                        <label><span class="icon">🤖</span> Paste AI's Response Here</label>
+                        <button class="copy-prompt-btn" onclick="copyPrompt('makeover-1')">📋 Copy Your Prompt</button>
+                        <textarea class="ai-response-textarea" id="response-1" placeholder="1. Copy your power prompt above&#10;2. Send it to ChatGPT, Gemini, or Claude&#10;3. Paste the AI's response here&#10;&#10;This helps you see how your prompt affects the quality of the response!"></textarea>
+                        <div class="response-comparison" id="comparison-1">
+                            <h4>💡 Reflection Questions</h4>
+                            <p>• Did the AI understand exactly what you wanted?<br>
+                            • Was the code at the right level for a beginner?<br>
+                            • Did it include all the features you asked for?<br>
+                            • What would you change in your prompt to get an even better response?</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="makeover-card" data-makeover="2">
+                    <div class="makeover-original">
+                        <div class="label">❌ Vague Prompt</div>
+                        <div class="prompt">"explain python"</div>
+                    </div>
+                    
+                    <div class="makeover-input-area">
+                        <label>✨ Your Power Prompt</label>
+                        <textarea class="makeover-textarea" id="makeover-2" placeholder="Rewrite this prompt using S.P.E.C. ..."></textarea>
+                    </div>
+                    
+                    <p class="spec-check-label">✅ Check off what you included in your prompt:</p>
+                    <div class="spec-live-check" id="spec-check-2">
+                        <div class="spec-self-check" data-spec="S" onclick="toggleSelfCheck(this)">
+                            <span class="checkbox"></span>
+                            <span><strong>S</strong> - Simple language</span>
+                        </div>
+                        <div class="spec-self-check" data-spec="P" onclick="toggleSelfCheck(this)">
+                            <span class="checkbox"></span>
+                            <span><strong>P</strong> - Precise details</span>
+                        </div>
+                        <div class="spec-self-check" data-spec="E" onclick="toggleSelfCheck(this)">
+                            <span class="checkbox"></span>
+                            <span><strong>E</strong> - Explicit format</span>
+                        </div>
+                        <div class="spec-self-check" data-spec="C" onclick="toggleSelfCheck(this)">
+                            <span class="checkbox"></span>
+                            <span><strong>C</strong> - Context about you</span>
+                        </div>
+                    </div>
+                    
+                    <div style="display: flex; gap: 10px; flex-wrap: wrap;">
+                        <button class="btn btn-secondary" onclick="showHint(2)">💡 Show Hint</button>
+                        <button class="btn btn-secondary" onclick="showSolution(2)">👀 See Example</button>
+                    </div>
+                    
+                    <div class="hint-box" id="hint-2">
+                        <h4>💡 Hints</h4>
+                        <p><strong>S:</strong> Ask one clear thing (not "explain everything")<br>
+                        <strong>P:</strong> Pick ONE specific topic (variables, loops, functions)<br>
+                        <strong>E:</strong> Say how you want it explained (with examples, step-by-step)<br>
+                        <strong>C:</strong> Mention your age/level and why you're learning</p>
+                    </div>
+                    
+                    <div class="solution-box" id="solution-2">
+                        <h4>✅ Example Power Prompt</h4>
+                        <div class="prompt">"I'm 14 years old and just starting to learn Python. Explain what variables are and why they're useful. Use 3 simple examples that relate to video games or social media. Keep the explanation short and easy to understand."</div>
+                    </div>
+                    
+                    <!-- AI Response Area -->
+                    <div class="ai-response-area">
+                        <label><span class="icon">🤖</span> Paste AI's Response Here</label>
+                        <button class="copy-prompt-btn" onclick="copyPrompt('makeover-2')">📋 Copy Your Prompt</button>
+                        <textarea class="ai-response-textarea" id="response-2" placeholder="1. Copy your power prompt above&#10;2. Send it to ChatGPT, Gemini, or Claude&#10;3. Paste the AI's response here"></textarea>
+                        <div class="response-comparison" id="comparison-2">
+                            <h4>💡 Reflection Questions</h4>
+                            <p>• Did the AI use examples you can relate to?<br>
+                            • Was the explanation easy to understand?<br>
+                            • Did it match the level you specified (beginner)?<br>
+                            • How did adding context change the response?</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Non-coding example -->
+                <div class="makeover-card" data-makeover="3">
+                    <div class="makeover-original">
+                        <div class="label">❌ Vague Prompt (Non-Coding!)</div>
+                        <div class="prompt">"write an essay"</div>
+                    </div>
+                    
+                    <div class="makeover-input-area">
+                        <label>✨ Your Power Prompt</label>
+                        <textarea class="makeover-textarea" id="makeover-3" placeholder="Rewrite this prompt using S.P.E.C. ...&#10;&#10;This one isn't about code! Think about:&#10;• What topic should the essay cover?&#10;• How long should it be?&#10;• What's the purpose (school, blog, persuasion)?&#10;• What's your writing level?"></textarea>
+                    </div>
+                    
+                    <p class="spec-check-label">✅ Check off what you included in your prompt:</p>
+                    <div class="spec-live-check" id="spec-check-3">
+                        <div class="spec-self-check" data-spec="S" onclick="toggleSelfCheck(this)">
+                            <span class="checkbox"></span>
+                            <span><strong>S</strong> - Simple language</span>
+                        </div>
+                        <div class="spec-self-check" data-spec="P" onclick="toggleSelfCheck(this)">
+                            <span class="checkbox"></span>
+                            <span><strong>P</strong> - Precise details</span>
+                        </div>
+                        <div class="spec-self-check" data-spec="E" onclick="toggleSelfCheck(this)">
+                            <span class="checkbox"></span>
+                            <span><strong>E</strong> - Explicit format</span>
+                        </div>
+                        <div class="spec-self-check" data-spec="C" onclick="toggleSelfCheck(this)">
+                            <span class="checkbox"></span>
+                            <span><strong>C</strong> - Context about you</span>
+                        </div>
+                    </div>
+                    
+                    <div style="display: flex; gap: 10px; flex-wrap: wrap;">
+                        <button class="btn btn-secondary" onclick="showHint(3)">💡 Show Hint</button>
+                        <button class="btn btn-secondary" onclick="showSolution(3)">👀 See Example</button>
+                    </div>
+                    
+                    <div class="hint-box" id="hint-3">
+                        <h4>💡 Hints</h4>
+                        <p><strong>S:</strong> Use simple words like "write" or "help me with"<br>
+                        <strong>P:</strong> Specify the topic, word count (300 words), number of paragraphs<br>
+                        <strong>E:</strong> Say exactly what structure you need (intro, 3 body paragraphs, conclusion)<br>
+                        <strong>C:</strong> Mention it's for school, your grade level, and the subject class</p>
+                    </div>
+                    
+                    <div class="solution-box" id="solution-3">
+                        <h4>✅ Example Power Prompt</h4>
+                        <div class="prompt">"I'm a 9th grade student writing an essay for my English class. Help me write a 300-word persuasive essay about why schools should have longer lunch breaks. Include an introduction with a hook, 3 body paragraphs with different reasons, and a conclusion. Use vocabulary appropriate for a high school student."</div>
+                    </div>
+                    
+                    <!-- AI Response Area -->
+                    <div class="ai-response-area">
+                        <label><span class="icon">🤖</span> Paste AI's Response Here</label>
+                        <button class="copy-prompt-btn" onclick="copyPrompt('makeover-3')">📋 Copy Your Prompt</button>
+                        <textarea class="ai-response-textarea" id="response-3" placeholder="1. Copy your power prompt above&#10;2. Send it to ChatGPT, Gemini, or Claude&#10;3. Paste the AI's response here"></textarea>
+                        <div class="response-comparison" id="comparison-3">
+                            <h4>💡 Reflection Questions</h4>
+                            <p>• Did the essay have the exact structure you asked for?<br>
+                            • Was the vocabulary right for your grade level?<br>
+                            • Did it stay close to your word count?<br>
+                            • How would the response differ with just "write an essay"?</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div style="text-align: center; margin-top: 30px;">
+                    <button class="btn btn-primary" onclick="completeMakeover()">✅ I've Completed My Makeovers</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Challenge 4: Prompt Builder -->
+        <div class="challenge" id="challenge-4">
+            <div class="challenge-header">
+                <div class="challenge-number">4</div>
+                <div class="challenge-title">
+                    <h2>Prompt Builder</h2>
+                    <p>Construct a perfect prompt by selecting components</p>
+                </div>
+            </div>
+            <div class="challenge-content">
+                <p>Build a prompt by clicking on pieces from each category. Watch your prompt come together!</p>
+                
+                <div class="builder-area">
+                    <div class="builder-pieces">
+                        <h4>🧩 Select Your Pieces</h4>
+                        
+                        <div class="piece-category">
+                            <div class="piece-category-label">🎭 Role / Persona (C)</div>
+                            <div class="piece-options">
+                                <button class="piece-btn" data-category="role" data-value="Act as a friendly Python tutor." onclick="selectPiece(this)">Friendly Tutor</button>
+                                <button class="piece-btn" data-category="role" data-value="Act as a senior software developer." onclick="selectPiece(this)">Senior Developer</button>
+                                <button class="piece-btn" data-category="role" data-value="Act as a patient teacher for beginners." onclick="selectPiece(this)">Patient Teacher</button>
+                            </div>
+                        </div>
+                        
+                        <div class="piece-category">
+                            <div class="piece-category-label">📋 Task (S + P)</div>
+                            <div class="piece-options">
+                                <button class="piece-btn" data-category="task" data-value="Write a Python function that calculates the factorial of a number." onclick="selectPiece(this)">Factorial Function</button>
+                                <button class="piece-btn" data-category="task" data-value="Explain the difference between lists and tuples in Python." onclick="selectPiece(this)">Lists vs Tuples</button>
+                                <button class="piece-btn" data-category="task" data-value="Create a simple to-do list program with add and remove features." onclick="selectPiece(this)">To-Do Program</button>
+                            </div>
+                        </div>
+                        
+                        <div class="piece-category">
+                            <div class="piece-category-label">📐 Format (E)</div>
+                            <div class="piece-options">
+                                <button class="piece-btn" data-category="format" data-value="Include detailed comments explaining each line." onclick="selectPiece(this)">With Comments</button>
+                                <button class="piece-btn" data-category="format" data-value="Show 3 examples with increasing difficulty." onclick="selectPiece(this)">3 Examples</button>
+                                <button class="piece-btn" data-category="format" data-value="Present it as a step-by-step tutorial." onclick="selectPiece(this)">Step-by-Step</button>
+                            </div>
+                        </div>
+                        
+                        <div class="piece-category">
+                            <div class="piece-category-label">🎯 Context (C)</div>
+                            <div class="piece-options">
+                                <button class="piece-btn" data-category="context" data-value="I'm a 14-year-old learning Python for the first time." onclick="selectPiece(this)">Beginner (14yo)</button>
+                                <button class="piece-btn" data-category="context" data-value="I've been coding for 6 months and want to improve." onclick="selectPiece(this)">6 Months Experience</button>
+                                <button class="piece-btn" data-category="context" data-value="I'm preparing for a school coding competition." onclick="selectPiece(this)">Competition Prep</button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="builder-result">
+                        <h4>📝 Your Built Prompt</h4>
+                        <div class="built-prompt" id="built-prompt">
+                            <span class="placeholder">Click pieces on the left to build your prompt...</span>
+                        </div>
+                        <div style="margin-top: 20px; display: flex; gap: 10px;">
+                            <button class="btn btn-secondary" onclick="resetBuilder()">🔄 Reset</button>
+                            <button class="btn btn-primary" onclick="completeBuilder()">✅ Complete</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Challenge 5: Final Challenge -->
+        <div class="challenge" id="challenge-5">
+            <div class="challenge-header">
+                <div class="challenge-number">5</div>
+                <div class="challenge-title">
+                    <h2>Final Challenge</h2>
+                    <p>Write a complete power prompt from scratch!</p>
+                </div>
+            </div>
+            <div class="challenge-content">
+                <div class="final-scenario">
+                    <h4>🎬 Your Mission</h4>
+                    <p>You're working on a school project and need help from AI. You want to create a <strong>Python quiz game</strong> that asks the user 5 math questions, keeps track of their score, and shows a final message based on how well they did.</p>
+                    <p style="margin-top: 15px; color: var(--text-secondary);">Write a prompt that would get you EXACTLY the help you need. Use everything you've learned about S.P.E.C.!</p>
+                </div>
+                
+                <textarea class="final-textarea" id="final-prompt" placeholder="Write your power prompt here...&#10;&#10;Remember to include:&#10;✓ Simple, clear language&#10;✓ Precise requirements (5 questions, score tracking, final message)&#10;✓ Explicit format expectations&#10;✓ Context about who you are"></textarea>
+                
+                <p class="spec-check-label" style="text-align: center;">✅ Before submitting, check off what you included:</p>
+                <div class="spec-live-check" id="spec-check-final" style="justify-content: center;">
+                    <div class="spec-self-check" data-spec="S" onclick="toggleSelfCheckFinal(this)">
+                        <span class="checkbox"></span>
+                        <span><strong>S</strong> - Simple</span>
+                    </div>
+                    <div class="spec-self-check" data-spec="P" onclick="toggleSelfCheckFinal(this)">
+                        <span class="checkbox"></span>
+                        <span><strong>P</strong> - Precise</span>
+                    </div>
+                    <div class="spec-self-check" data-spec="E" onclick="toggleSelfCheckFinal(this)">
+                        <span class="checkbox"></span>
+                        <span><strong>E</strong> - Explicit</span>
+                    </div>
+                    <div class="spec-self-check" data-spec="C" onclick="toggleSelfCheckFinal(this)">
+                        <span class="checkbox"></span>
+                        <span><strong>C</strong> - Context</span>
+                    </div>
+                </div>
+                
+                <div class="score-display" id="final-score">
+                    <div class="score-circle">
+                        <span class="score" id="score-value">4</span>
+                    </div>
+                    <div class="score-label">out of 4 S.P.E.C. criteria!</div>
+                    <div class="score-breakdown" id="score-breakdown"></div>
+                </div>
+                
+                <!-- AI Response Area for Final Challenge -->
+                <div class="ai-response-area" style="margin-top: 40px; padding-top: 40px; border-top: 2px dashed rgba(168, 85, 247, 0.3);">
+                    <label><span class="icon">🤖</span> Test Your Prompt! Paste AI's Response Here</label>
+                    <button class="copy-prompt-btn" onclick="copyPrompt('final-prompt')" style="margin-bottom: 15px;">📋 Copy Your Final Prompt</button>
+                    <textarea class="ai-response-textarea" id="response-final" placeholder="Now it's time to test your power prompt!&#10;&#10;1. Click 'Copy Your Final Prompt' above&#10;2. Open ChatGPT, Gemini, or Claude in a new tab&#10;3. Paste your prompt and send it&#10;4. Copy the AI's response and paste it here&#10;&#10;Compare the result: Did your S.P.E.C. prompt get you exactly what you needed?" style="min-height: 200px;"></textarea>
+                    
+                    <div class="response-comparison show" style="margin-top: 25px; background: rgba(168, 85, 247, 0.1); border-color: rgba(168, 85, 247, 0.3);">
+                        <h4 style="color: var(--accent-purple);">🎯 Final Reflection</h4>
+                        <p>After seeing the AI's response, ask yourself:<br><br>
+                        • Did the AI create a quiz with <strong>exactly 5 math questions</strong>?<br>
+                        • Does it <strong>track the score</strong> correctly?<br>
+                        • Is there a <strong>final message</strong> based on performance?<br>
+                        • Are there <strong>comments</strong> explaining the code?<br>
+                        • Is the code at <strong>your skill level</strong>?<br><br>
+                        <em>If something is missing, think about what you could add to your prompt to get it!</em></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Completion Section -->
+        <div class="completion-section" id="completion">
+            <div class="trophy">🏆</div>
+            <h2>Congratulations!</h2>
+            <p>You've completed all 5 challenges and mastered the S.P.E.C. framework!</p>
+            <p style="color: var(--accent-gold);">You're now ready to write power prompts that get exactly the AI responses you need.</p>
+        </div>
+    </div>
+
+    <script>
+        // State management
+        let completedChallenges = new Set();
+        let selectedLetter = null;
+        let matchedPairs = 0;
+        let builderSelections = {};
+        let analyzerCorrect = { 1: false, 2: false, 3: false, 4: false };
+
+        // Update progress
+        function updateProgress() {
+            const count = completedChallenges.size;
+            document.getElementById('completed-count').textContent = count;
+            document.getElementById('progress-fill').style.width = `${(count / 5) * 100}%`;
+            
+            document.querySelectorAll('.challenge-dot').forEach((dot, index) => {
+                if (completedChallenges.has(index + 1)) {
+                    dot.classList.add('completed');
+                    dot.classList.remove('active');
+                } else if (index + 1 === Math.min(...[1,2,3,4,5].filter(n => !completedChallenges.has(n)))) {
+                    dot.classList.add('active');
+                }
+            });
+            
+            if (count === 5) {
+                document.getElementById('completion').classList.add('show');
+            }
+            
+            // Save to localStorage
+            localStorage.setItem('spec-progress', JSON.stringify([...completedChallenges]));
+        }
+
+        // Load progress
+        function loadProgress() {
+            const saved = localStorage.getItem('spec-progress');
+            if (saved) {
+                completedChallenges = new Set(JSON.parse(saved));
+                updateProgress();
+            }
+        }
+
+        // Copy prompt to clipboard
+        function copyPrompt(textareaId) {
+            const textarea = document.getElementById(textareaId);
+            const text = textarea.value;
+            
+            if (!text.trim()) {
+                alert('Please write your prompt first before copying!');
+                return;
+            }
+            
+            navigator.clipboard.writeText(text).then(() => {
+                const btn = event.target.closest('.copy-prompt-btn');
+                const originalText = btn.innerHTML;
+                btn.innerHTML = '✅ Copied!';
+                btn.classList.add('copied');
+                
+                setTimeout(() => {
+                    btn.innerHTML = originalText;
+                    btn.classList.remove('copied');
+                }, 2000);
+            }).catch(err => {
+                // Fallback for older browsers
+                textarea.select();
+                document.execCommand('copy');
+                alert('Prompt copied! Now paste it into ChatGPT, Gemini, or Claude.');
+            });
+        }
+
+        // Show reflection questions when response is pasted
+        document.querySelectorAll('.ai-response-textarea').forEach(textarea => {
+            textarea.addEventListener('input', function() {
+                const id = this.id.replace('response-', '');
+                const comparison = document.getElementById(`comparison-${id}`);
+                if (comparison && this.value.trim().length > 50) {
+                    comparison.classList.add('show');
+                }
+            });
+        });
+
+        // Challenge 1: S.P.E.C. Matcher
+        document.querySelectorAll('.spec-letter-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                if (this.classList.contains('matched')) return;
+                
+                document.querySelectorAll('.spec-letter-btn').forEach(b => b.classList.remove('selected'));
+                this.classList.add('selected');
+                selectedLetter = this.dataset.letter;
+            });
+        });
+
+        document.querySelectorAll('.spec-def-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                if (!selectedLetter || this.classList.contains('matched')) return;
+                
+                const correct = this.dataset.answer === selectedLetter;
+                
+                if (correct) {
+                    this.classList.add('correct', 'matched');
+                    document.querySelector(`.spec-letter-btn[data-letter="${selectedLetter}"]`).classList.add('matched');
+                    matchedPairs++;
+                    
+                    if (matchedPairs === 4) {
+                        completedChallenges.add(1);
+                        updateProgress();
+                        const feedback = document.getElementById('matcher-feedback');
+                        feedback.className = 'analyzer-feedback show success';
+                        feedback.innerHTML = '🎉 Perfect! You matched all S.P.E.C. letters correctly! Challenge Complete!';
+                    }
+                } else {
+                    this.classList.add('incorrect');
+                    setTimeout(() => this.classList.remove('incorrect'), 500);
+                }
+                
+                document.querySelectorAll('.spec-letter-btn').forEach(b => b.classList.remove('selected'));
+                selectedLetter = null;
+            });
+        });
+
+        // Challenge 2: Prompt Analyzer
+        function toggleCheck(element) {
+            element.classList.toggle('checked');
+        }
+
+        function checkAnalysis(promptNum, correctAnswers) {
+            const card = document.querySelector(`.analyzer-card[data-prompt="${promptNum}"]`);
+            const checked = [...card.querySelectorAll('.spec-check-item.checked')].map(el => el.dataset.spec);
+            const feedback = document.getElementById(`analyzer-feedback-${promptNum}`);
+            
+            const isCorrect = checked.length === correctAnswers.length && 
+                              checked.every(c => correctAnswers.includes(c));
+            
+            if (isCorrect) {
+                feedback.className = 'analyzer-feedback show success';
+                feedback.innerHTML = '✅ Correct! Great analysis!';
+                analyzerCorrect[promptNum] = true;
+                
+                // Check if all 3 are correct
+                if (Object.values(analyzerCorrect).every(v => v)) {
+                    completedChallenges.add(2);
+                    updateProgress();
+                    feedback.innerHTML += ' 🎉 Challenge 2 Complete!';
+                }
+            } else {
+                feedback.className = 'analyzer-feedback show error';
+                feedback.innerHTML = '❌ Not quite. Think carefully about what this prompt includes and try again!';
+            }
+        }
+
+        // Challenge 3: Self-evaluation checkboxes
+        function toggleSelfCheck(element) {
+            element.classList.toggle('checked');
+            
+            // Update checkbox icon
+            const checkbox = element.querySelector('.checkbox');
+            if (element.classList.contains('checked')) {
+                checkbox.innerHTML = '✓';
+            } else {
+                checkbox.innerHTML = '';
+            }
+        }
+
+        // Challenge 5: Self-evaluation checkboxes with auto-complete
+        function toggleSelfCheckFinal(element) {
+            toggleSelfCheck(element);
+            
+            // Check if all 4 are checked and prompt is long enough
+            const container = document.getElementById('spec-check-final');
+            const allChecked = container.querySelectorAll('.spec-self-check.checked').length === 4;
+            const promptText = document.getElementById('final-prompt').value;
+            
+            if (allChecked && promptText.length >= 50 && !completedChallenges.has(5)) {
+                // Show score display
+                document.getElementById('score-value').textContent = '4';
+                const breakdown = document.getElementById('score-breakdown');
+                breakdown.innerHTML = `
+                    <span class="score-item achieved">S - Simple ✓</span>
+                    <span class="score-item achieved">P - Precise ✓</span>
+                    <span class="score-item achieved">E - Explicit ✓</span>
+                    <span class="score-item achieved">C - Contextual ✓</span>
+                `;
+                document.getElementById('final-score').classList.add('show');
+                
+                completedChallenges.add(5);
+                updateProgress();
+                
+                setTimeout(() => {
+                    alert('🎉 Perfect score! You\'ve mastered the S.P.E.C. framework! Now copy your prompt and test it with a real AI to see the magic happen!');
+                }, 300);
+            }
+        }
+
+        // Count checked items in a container
+        function countChecked(containerId) {
+            const container = document.getElementById(containerId);
+            return container.querySelectorAll('.spec-self-check.checked').length;
+        }
+
+        function showHint(num) {
+            document.getElementById(`hint-${num}`).classList.toggle('show');
+        }
+
+        function showSolution(num) {
+            document.getElementById(`solution-${num}`).classList.toggle('show');
+        }
+
+        function completeMakeover() {
+            const text1 = document.getElementById('makeover-1').value;
+            const text2 = document.getElementById('makeover-2').value;
+            const text3 = document.getElementById('makeover-3').value;
+            const response1 = document.getElementById('response-1').value;
+            const response2 = document.getElementById('response-2').value;
+            const response3 = document.getElementById('response-3').value;
+            
+            if (text1.length < 50 || text2.length < 50 || text3.length < 50) {
+                alert('Please write more detailed power prompts for all 3 makeovers before completing this challenge.');
+                return;
+            }
+            
+            completedChallenges.add(3);
+            updateProgress();
+            
+            if (response1.length > 50 || response2.length > 50 || response3.length > 50) {
+                alert('🎉 Challenge 3 Complete! Amazing work - you tested your prompts with real AI and saw the results!');
+            } else {
+                alert('🎉 Challenge 3 Complete! Great job on your prompt makeovers!\n\n💡 Pro tip: Try copying your prompts and testing them with ChatGPT or Gemini to see how well they work!');
+            }
+        }
+
+        // Challenge 4: Prompt Builder
+        function selectPiece(element) {
+            const category = element.dataset.category;
+            const value = element.dataset.value;
+            
+            // Deselect others in same category
+            document.querySelectorAll(`.piece-btn[data-category="${category}"]`).forEach(btn => {
+                btn.classList.remove('selected');
+            });
+            
+            element.classList.add('selected');
+            builderSelections[category] = value;
+            
+            updateBuiltPrompt();
+        }
+
+        function updateBuiltPrompt() {
+            const promptDiv = document.getElementById('built-prompt');
+            const parts = [];
+            
+            if (builderSelections.context) {
+                parts.push(`<span class="piece piece-context">${builderSelections.context}</span>`);
+            }
+            if (builderSelections.role) {
+                parts.push(`<span class="piece piece-role">${builderSelections.role}</span>`);
+            }
+            if (builderSelections.task) {
+                parts.push(`<span class="piece piece-task">${builderSelections.task}</span>`);
+            }
+            if (builderSelections.format) {
+                parts.push(`<span class="piece piece-format">${builderSelections.format}</span>`);
+            }
+            
+            if (parts.length === 0) {
+                promptDiv.innerHTML = '<span class="placeholder">Click pieces on the left to build your prompt...</span>';
+            } else {
+                promptDiv.innerHTML = parts.join(' ');
+            }
+        }
+
+        function resetBuilder() {
+            builderSelections = {};
+            document.querySelectorAll('.piece-btn').forEach(btn => btn.classList.remove('selected'));
+            updateBuiltPrompt();
+        }
+
+        function completeBuilder() {
+            if (Object.keys(builderSelections).length === 4) {
+                completedChallenges.add(4);
+                updateProgress();
+                alert('🎉 Challenge 4 Complete! You built a perfect S.P.E.C. prompt!');
+            } else {
+                alert('Please select one piece from each category to complete your prompt.');
+            }
+        }
+
+        // Challenge 5: Final Challenge
+        function submitFinal() {
+            const text = document.getElementById('final-prompt').value;
+            
+            if (text.length < 50) {
+                alert('Your prompt is too short. A good power prompt should be more detailed!');
+                return;
+            }
+            
+            // Get self-evaluated checks
+            const container = document.getElementById('spec-check-final');
+            const checks = container.querySelectorAll('.spec-self-check');
+            
+            const hasSimple = checks[0].classList.contains('checked');
+            const hasPrecise = checks[1].classList.contains('checked');
+            const hasExplicit = checks[2].classList.contains('checked');
+            const hasContext = checks[3].classList.contains('checked');
+            
+            const score = [hasSimple, hasPrecise, hasExplicit, hasContext].filter(Boolean).length;
+            
+            if (score === 0) {
+                alert('Please check off the S.P.E.C. criteria that you included in your prompt!');
+                return;
+            }
+            
+            document.getElementById('score-value').textContent = score;
+            
+            const breakdown = document.getElementById('score-breakdown');
+            breakdown.innerHTML = `
+                <span class="score-item ${hasSimple ? 'achieved' : 'missed'}">S - Simple ${hasSimple ? '✓' : '✗'}</span>
+                <span class="score-item ${hasPrecise ? 'achieved' : 'missed'}">P - Precise ${hasPrecise ? '✓' : '✗'}</span>
+                <span class="score-item ${hasExplicit ? 'achieved' : 'missed'}">E - Explicit ${hasExplicit ? '✓' : '✗'}</span>
+                <span class="score-item ${hasContext ? 'achieved' : 'missed'}">C - Contextual ${hasContext ? '✓' : '✗'}</span>
+            `;
+            
+            document.getElementById('final-score').classList.add('show');
+            
+            if (score === 4) {
+                completedChallenges.add(5);
+                updateProgress();
+                setTimeout(() => {
+                    alert('🎉 Perfect score! You\'ve mastered the S.P.E.C. framework! Now copy your prompt and test it with a real AI to see the magic happen!');
+                }, 500);
+            } else if (score === 3) {
+                alert('🌟 Almost there! You got 3/4 S.P.E.C. criteria. Can you add the missing element for a perfect score? Look at the breakdown to see what\'s missing!');
+            } else {
+                alert(`You checked ${score}/4 S.P.E.C. criteria. Try to include all 4 for a truly powerful prompt!`);
+            }
+        }
+
+        // Reset all progress
+        function resetAllProgress() {
+            if (confirm('🔄 This will reset ALL your progress and start fresh. Are you sure?')) {
+                localStorage.removeItem('spec-progress');
+                location.reload();
+            }
+        }
+
+        // Initialize
+        loadProgress();
+    </script>
+</body>
+</html>
+
