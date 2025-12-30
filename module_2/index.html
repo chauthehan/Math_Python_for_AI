@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Prompt Engineering for Students 🚀</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-dark: #0f0f1a;
+            --bg-card: #1a1a2e;
+            --accent-cyan: #00d9ff;
+            --accent-pink: #ff2e97;
+            --accent-gold: #ffd700;
+            --accent-green: #00ff88;
+            --accent-purple: #a855f7;
+            --accent-blue: #3b82f6;
+            --accent-orange: #f59e0b;
+            --text-primary: #ffffff;
+            --text-secondary: #a0a0b8;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Outfit', sans-serif;
+            background: linear-gradient(135deg, #0f0f1a 0%, #1a1a2e 50%, #2d1b4e 100%);
+            color: var(--text-primary);
+            min-height: 100vh;
+            padding: 40px 20px;
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                radial-gradient(circle at 20% 80%, rgba(0, 217, 255, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(255, 46, 151, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 40% 40%, rgba(168, 85, 247, 0.05) 0%, transparent 40%);
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+
+        .logo {
+            font-size: 4em;
+            margin-bottom: 20px;
+            animation: float 3s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        h1 {
+            font-size: 2.8em;
+            font-weight: 800;
+            background: linear-gradient(135deg, var(--accent-cyan), var(--accent-green), var(--accent-gold));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 15px;
+        }
+
+        .subtitle {
+            font-size: 1.3em;
+            color: var(--text-secondary);
+            font-weight: 300;
+        }
+
+        /* Lesson Section */
+        .lesson-section {
+            margin-bottom: 50px;
+        }
+
+        .lesson-header {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 25px;
+        }
+
+        .lesson-number {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.3em;
+            font-weight: 800;
+            flex-shrink: 0;
+        }
+
+        .lesson-section:nth-child(1) .lesson-number { background: linear-gradient(135deg, var(--accent-purple), var(--accent-pink)); }
+        .lesson-section:nth-child(2) .lesson-number { background: linear-gradient(135deg, var(--accent-blue), var(--accent-cyan)); }
+        .lesson-section:nth-child(3) .lesson-number { background: linear-gradient(135deg, var(--accent-orange), var(--accent-gold)); }
+        .lesson-section:nth-child(4) .lesson-number { background: linear-gradient(135deg, var(--accent-green), var(--accent-cyan)); }
+        .lesson-section:nth-child(5) .lesson-number { background: linear-gradient(135deg, var(--accent-pink), var(--accent-purple)); }
+
+        .lesson-info h2 {
+            font-size: 1.5em;
+            font-weight: 700;
+            margin-bottom: 5px;
+        }
+
+        .lesson-info p {
+            color: var(--text-secondary);
+            font-size: 0.95em;
+        }
+
+        .lesson-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+        }
+
+        .lesson-card {
+            background: var(--bg-card);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 16px;
+            padding: 25px;
+            text-decoration: none;
+            color: inherit;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .lesson-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--accent-cyan);
+            box-shadow: 0 15px 30px rgba(0, 217, 255, 0.15);
+        }
+
+        .card-icon {
+            font-size: 2.5em;
+            flex-shrink: 0;
+        }
+
+        .card-content {
+            flex: 1;
+        }
+
+        .card-title {
+            font-size: 1.1em;
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+
+        .card-desc {
+            color: var(--text-secondary);
+            font-size: 0.9em;
+            line-height: 1.5;
+        }
+
+        .card-badge {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 50px;
+            font-size: 0.7em;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-top: 10px;
+        }
+
+        .badge-theory {
+            background: rgba(168, 85, 247, 0.2);
+            color: var(--accent-purple);
+        }
+
+        .badge-practice {
+            background: rgba(0, 255, 136, 0.2);
+            color: var(--accent-green);
+        }
+
+        .badge-coming {
+            background: rgba(255, 255, 255, 0.1);
+            color: var(--text-secondary);
+        }
+
+        .lesson-card.coming-soon {
+            opacity: 0.5;
+            pointer-events: none;
+        }
+
+        .footer {
+            text-align: center;
+            margin-top: 60px;
+            padding-top: 30px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            color: var(--text-secondary);
+            font-size: 0.9em;
+        }
+
+        @media (max-width: 600px) {
+            h1 {
+                font-size: 2em;
+            }
+            
+            .logo {
+                font-size: 3em;
+            }
+
+            .lesson-card {
+                flex-direction: column;
+                text-align: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="logo">🤖</div>
+            <h1>Prompt Engineering for Students</h1>
+            <p class="subtitle">Learn to communicate effectively with AI using proven frameworks</p>
+        </header>
+
+        <main>
+            <!-- LESSON 1 -->
+            <section class="lesson-section">
+                <div class="lesson-header">
+                    <div class="lesson-number">1</div>
+                    <div class="lesson-info">
+                        <h2>The Golden Rule of Talking to AI</h2>
+                        <p>Master the S.P.E.C. framework for writing powerful prompts</p>
+                    </div>
+                </div>
+                <div class="lesson-cards">
+                    <a href="lessons/lesson_1/Lesson_1_Theory.html" class="lesson-card">
+                        <div class="card-icon">📚</div>
+                        <div class="card-content">
+                            <div class="card-title">Theory</div>
+                            <div class="card-desc">Learn what makes a great prompt and discover the S.P.E.C. framework</div>
+                            <span class="card-badge badge-theory">Learn</span>
+                        </div>
+                    </a>
+                    <a href="lessons/lesson_1/Lesson_1_Practice.html" class="lesson-card">
+                        <div class="card-icon">🎮</div>
+                        <div class="card-content">
+                            <div class="card-title">Practice</div>
+                            <div class="card-desc">Complete 5 interactive challenges to master prompt engineering</div>
+                            <span class="card-badge badge-practice">Interactive</span>
+                        </div>
+                    </a>
+                </div>
+            </section>
+
+            <!-- LESSON 2 -->
+            <section class="lesson-section">
+                <div class="lesson-header">
+                    <div class="lesson-number">2</div>
+                    <div class="lesson-info">
+                        <h2>The Architect's Blueprint</h2>
+                        <p>Learn how to structure prompts like a professional for consistent results</p>
+                    </div>
+                </div>
+                <div class="lesson-cards">
+                    <div class="lesson-card coming-soon">
+                        <div class="card-icon">📐</div>
+                        <div class="card-content">
+                            <div class="card-title">Theory</div>
+                            <div class="card-desc">Master the 4 Pillars: Instruction, Context, Input Data & Output Indicator. Learn delimiters and output formatting.</div>
+                            <span class="card-badge badge-coming">Coming Soon</span>
+                        </div>
+                    </div>
+                    <div class="lesson-card coming-soon">
+                        <div class="card-icon">🏗️</div>
+                        <div class="card-content">
+                            <div class="card-title">Practice</div>
+                            <div class="card-desc">Build a "Story Generator" prompt that follows a specific structure every time</div>
+                            <span class="card-badge badge-coming">Coming Soon</span>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- LESSON 3 -->
+            <section class="lesson-section">
+                <div class="lesson-header">
+                    <div class="lesson-number">3</div>
+                    <div class="lesson-info">
+                        <h2>Few-Shot Prompting</h2>
+                        <p>Teach AI new tasks instantly by showing examples</p>
+                    </div>
+                </div>
+                <div class="lesson-cards">
+                    <div class="lesson-card coming-soon">
+                        <div class="card-icon">🎯</div>
+                        <div class="card-content">
+                            <div class="card-title">Theory</div>
+                            <div class="card-desc">Zero-Shot vs Few-Shot, pattern recognition, and using Python list logic for Input → Output pairs</div>
+                            <span class="card-badge badge-coming">Coming Soon</span>
+                        </div>
+                    </div>
+                    <div class="lesson-card coming-soon">
+                        <div class="card-icon">🕵️</div>
+                        <div class="card-content">
+                            <div class="card-title">Practice</div>
+                            <div class="card-desc">Teach AI to translate English into a "Secret Spy Code" using 3-5 examples</div>
+                            <span class="card-badge badge-coming">Coming Soon</span>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <footer class="footer">
+            <p>Built with 💜 for young learners</p>
+        </footer>
+    </div>
+</body>
+</html>

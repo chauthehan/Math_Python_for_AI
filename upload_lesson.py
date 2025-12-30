@@ -139,9 +139,17 @@ class GoogleDriveAutomation:
         
         if files:
             file_id = files[0].get('id')
+            # When updating, we cannot include 'parents' in the body
+            # Create a new metadata dict without 'parents' field
+            update_metadata = {
+                'name': file_metadata['name']
+            }
+            if 'mimeType' in file_metadata:
+                update_metadata['mimeType'] = file_metadata['mimeType']
+            
             file = self.service.files().update(
                 fileId=file_id,
-                body=file_metadata,
+                body=update_metadata,
                 media_body=media,
                 fields='id, name'
             ).execute()
@@ -168,7 +176,7 @@ class GoogleDriveAutomation:
             self.service.permissions().create(
                 fileId=file_id,
                 body=permission,
-                sendNotificationEmail=True
+                sendNotificationEmail=False
             ).execute()
             return True
         except Exception as e:
