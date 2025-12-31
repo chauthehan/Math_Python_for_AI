@@ -347,7 +347,7 @@
             border-left: 3px solid var(--accent-purple);
         }
 
-        /* S.P.E.C. Framework */
+        /* S.P.E.C. Framework - Interactive Flip Cards */
         .spec-grid {
             display: grid;
             grid-template-columns: repeat(4, 1fr);
@@ -355,30 +355,72 @@
             margin: 40px 0;
         }
 
+        .spec-card-container {
+            perspective: 1000px;
+            height: 280px;
+        }
+
         .spec-card {
-            background: rgba(255, 255, 255, 0.03);
-            border: 2px solid transparent;
+            position: relative;
+            width: 100%;
+            height: 100%;
+            transform-style: preserve-3d;
+            transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+            cursor: pointer;
+        }
+
+        .spec-card.flipped {
+            transform: rotateY(180deg);
+        }
+
+        .spec-card-face {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            backface-visibility: hidden;
             border-radius: 20px;
             padding: 30px 20px;
             text-align: center;
-            transition: all 0.4s ease;
-            position: relative;
-            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
         }
 
-        .spec-card:nth-child(1) { border-color: #3b82f6; }
-        .spec-card:nth-child(2) { border-color: #10b981; }
-        .spec-card:nth-child(3) { border-color: #f59e0b; }
-        .spec-card:nth-child(4) { border-color: #ec4899; }
-
-        .spec-card:hover {
-            transform: translateY(-10px) scale(1.03);
+        .spec-card-front {
+            background: rgba(255, 255, 255, 0.03);
+            border: 2px solid transparent;
         }
 
-        .spec-card:nth-child(1):hover { box-shadow: 0 20px 50px rgba(59, 130, 246, 0.3); }
-        .spec-card:nth-child(2):hover { box-shadow: 0 20px 50px rgba(16, 185, 129, 0.3); }
-        .spec-card:nth-child(3):hover { box-shadow: 0 20px 50px rgba(245, 158, 11, 0.3); }
-        .spec-card:nth-child(4):hover { box-shadow: 0 20px 50px rgba(236, 72, 153, 0.3); }
+        .spec-card-back {
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.08) 0%, rgba(255, 255, 255, 0.03) 100%);
+            border: 2px solid transparent;
+            transform: rotateY(180deg);
+            padding: 20px 15px;
+        }
+
+        /* Card colors */
+        .spec-card-container:nth-child(1) .spec-card-front,
+        .spec-card-container:nth-child(1) .spec-card-back { border-color: #3b82f6; }
+        .spec-card-container:nth-child(2) .spec-card-front,
+        .spec-card-container:nth-child(2) .spec-card-back { border-color: #10b981; }
+        .spec-card-container:nth-child(3) .spec-card-front,
+        .spec-card-container:nth-child(3) .spec-card-back { border-color: #f59e0b; }
+        .spec-card-container:nth-child(4) .spec-card-front,
+        .spec-card-container:nth-child(4) .spec-card-back { border-color: #ec4899; }
+
+        .spec-card-container:hover .spec-card:not(.flipped) {
+            transform: translateY(-8px);
+        }
+
+        .spec-card-container:hover .spec-card.flipped {
+            transform: rotateY(180deg) translateY(-8px);
+        }
+
+        .spec-card-container:nth-child(1):hover .spec-card { box-shadow: 0 20px 50px rgba(59, 130, 246, 0.3); }
+        .spec-card-container:nth-child(2):hover .spec-card { box-shadow: 0 20px 50px rgba(16, 185, 129, 0.3); }
+        .spec-card-container:nth-child(3):hover .spec-card { box-shadow: 0 20px 50px rgba(245, 158, 11, 0.3); }
+        .spec-card-container:nth-child(4):hover .spec-card { box-shadow: 0 20px 50px rgba(236, 72, 153, 0.3); }
 
         .spec-card .letter {
             font-size: 3.5em;
@@ -386,10 +428,10 @@
             margin-bottom: 10px;
         }
 
-        .spec-card:nth-child(1) .letter { color: #3b82f6; }
-        .spec-card:nth-child(2) .letter { color: #10b981; }
-        .spec-card:nth-child(3) .letter { color: #f59e0b; }
-        .spec-card:nth-child(4) .letter { color: #ec4899; }
+        .spec-card-container:nth-child(1) .letter { color: #3b82f6; }
+        .spec-card-container:nth-child(2) .letter { color: #10b981; }
+        .spec-card-container:nth-child(3) .letter { color: #f59e0b; }
+        .spec-card-container:nth-child(4) .letter { color: #ec4899; }
 
         .spec-card h4 {
             font-size: 1.2em;
@@ -397,10 +439,69 @@
             color: var(--text-primary);
         }
 
-        .spec-card p {
+        .spec-card-front p {
             font-size: 0.95em;
             color: var(--text-secondary);
             margin: 0;
+        }
+
+        .spec-card .click-hint {
+            font-size: 0.75em;
+            color: var(--text-secondary);
+            margin-top: 15px;
+            opacity: 0.7;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .spec-card .click-hint .tap-icon {
+            animation: tapPulse 2s ease-in-out infinite;
+        }
+
+        @keyframes tapPulse {
+            0%, 100% { transform: scale(1); opacity: 0.7; }
+            50% { transform: scale(1.2); opacity: 1; }
+        }
+
+        /* Back of card styles */
+        .spec-card-back .back-label {
+            font-size: 0.75em;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 12px;
+            opacity: 0.8;
+        }
+
+        .spec-card-container:nth-child(1) .back-label { color: #3b82f6; }
+        .spec-card-container:nth-child(2) .back-label { color: #10b981; }
+        .spec-card-container:nth-child(3) .back-label { color: #f59e0b; }
+        .spec-card-container:nth-child(4) .back-label { color: #ec4899; }
+
+        .spec-card-back .example-prompt {
+            background: rgba(0, 0, 0, 0.4);
+            border-radius: 12px;
+            padding: 15px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.8em;
+            color: var(--accent-cyan);
+            text-align: left;
+            line-height: 1.5;
+            margin-bottom: 12px;
+        }
+
+        .spec-card-back .example-note {
+            font-size: 0.75em;
+            color: var(--text-secondary);
+            font-style: italic;
+        }
+
+        .spec-card-back .flip-back-hint {
+            font-size: 0.7em;
+            color: var(--text-secondary);
+            margin-top: 10px;
+            opacity: 0.6;
         }
 
         /* Transformation Section */
@@ -637,6 +738,10 @@
                 grid-template-columns: repeat(2, 1fr);
             }
 
+            .spec-card-container {
+                height: 300px;
+            }
+
             .transform-row {
                 grid-template-columns: 1fr;
                 text-align: center;
@@ -658,6 +763,14 @@
 
             .spec-grid {
                 grid-template-columns: 1fr;
+            }
+
+            .spec-card-container {
+                height: 260px;
+            }
+
+            .spec-card-back .example-prompt {
+                font-size: 0.75em;
             }
         }
 
@@ -803,26 +916,71 @@
             
             <p>How do you write prompts that work every time? Use the <span class="highlight">S.P.E.C.</span> framework—your checklist for prompt clarity!</p>
 
+            <p style="text-align: center; color: var(--text-secondary); margin-bottom: 10px;">👆 Click each card to see an example!</p>
             <div class="spec-grid">
-                <div class="spec-card">
-                    <div class="letter">S</div>
-                    <h4>Simple</h4>
-                    <p>Use clear, everyday language. Avoid complicated words when simple ones work.</p>
+                <div class="spec-card-container">
+                    <div class="spec-card" onclick="this.classList.toggle('flipped')">
+                        <div class="spec-card-face spec-card-front">
+                            <div class="letter">S</div>
+                            <h4>Simple</h4>
+                            <p>Use clear, everyday language. Avoid complicated words when simple ones work.</p>
+                            <div class="click-hint"><span class="tap-icon">👆</span> Click to see example</div>
+                        </div>
+                        <div class="spec-card-face spec-card-back">
+                            <div class="back-label">✨ Simple Example</div>
+                            <div class="example-prompt">"Write a function that adds two numbers"</div>
+                            <div class="example-note">Clear and easy to understand—no jargon needed!</div>
+                            <div class="flip-back-hint">Click to flip back</div>
+                        </div>
+                    </div>
                 </div>
-                <div class="spec-card">
-                    <div class="letter">P</div>
-                    <h4>Precise</h4>
-                    <p>Be exact about what you want. Include numbers, formats, and specific requirements.</p>
+                <div class="spec-card-container">
+                    <div class="spec-card" onclick="this.classList.toggle('flipped')">
+                        <div class="spec-card-face spec-card-front">
+                            <div class="letter">P</div>
+                            <h4>Precise</h4>
+                            <p>Be exact about what you want. Include numbers, formats, and specific requirements.</p>
+                            <div class="click-hint"><span class="tap-icon">👆</span> Click to see example</div>
+                        </div>
+                        <div class="spec-card-face spec-card-back">
+                            <div class="back-label">✨ Precise Example</div>
+                            <div class="example-prompt">"Create a list of exactly 5 items, each under 10 characters"</div>
+                            <div class="example-note">Specific numbers give AI clear targets!</div>
+                            <div class="flip-back-hint">Click to flip back</div>
+                        </div>
+                    </div>
                 </div>
-                <div class="spec-card">
-                    <div class="letter">E</div>
-                    <h4>Explicit</h4>
-                    <p>Don't assume the AI knows what you mean. State everything clearly.</p>
+                <div class="spec-card-container">
+                    <div class="spec-card" onclick="this.classList.toggle('flipped')">
+                        <div class="spec-card-face spec-card-front">
+                            <div class="letter">E</div>
+                            <h4>Explicit</h4>
+                            <p>Don't assume the AI knows what you mean. State everything clearly.</p>
+                            <div class="click-hint"><span class="tap-icon">👆</span> Click to see example</div>
+                        </div>
+                        <div class="spec-card-face spec-card-back">
+                            <div class="back-label">✨ Explicit Example</div>
+                            <div class="example-prompt">"Include comments on every line explaining what it does"</div>
+                            <div class="example-note">Tell the AI exactly what format you need!</div>
+                            <div class="flip-back-hint">Click to flip back</div>
+                        </div>
+                    </div>
                 </div>
-                <div class="spec-card">
-                    <div class="letter">C</div>
-                    <h4>Contextual</h4>
-                    <p>Give background info. Who are you? What's the goal? Who's the audience?</p>
+                <div class="spec-card-container">
+                    <div class="spec-card" onclick="this.classList.toggle('flipped')">
+                        <div class="spec-card-face spec-card-front">
+                            <div class="letter">C</div>
+                            <h4>Contextual</h4>
+                            <p>Give background info. Who are you? What's the goal? Who's the audience?</p>
+                            <div class="click-hint"><span class="tap-icon">👆</span> Click to see example</div>
+                        </div>
+                        <div class="spec-card-face spec-card-back">
+                            <div class="back-label">✨ Contextual Example</div>
+                            <div class="example-prompt">"I'm a beginner learning Python for a school project"</div>
+                            <div class="example-note">Context helps AI match your skill level!</div>
+                            <div class="flip-back-hint">Click to flip back</div>
+                        </div>
+                    </div>
                 </div>
             </div>
 
