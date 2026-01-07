@@ -1,0 +1,13 @@
+Refer to the format, style in math_python_for_AI/docs/lessons/lesson_1 , create 2 files theory and practice for lesson 2. Remember , the target student is from 10-12, so use the simple language for easy understanding. Below is the information about lesson 2:
+
+Lesson 2: The Architect’s Blueprint (Prompt Structure)
+Goal: Learn how to structure a prompt like a professional to get consistent results.
+
+What the student will learn:
+The 4 Pillars: Instruction, Context, Input Data, and Output Indicator.
+
+Delimiters: Using characters like ### or """ to separate instructions from data (similar to how we use quotes in Python strings).
+
+Formatting the Output: How to force the AI to answer in specific formats like Bullet Points, Tables.
+
+Hands-on: Creating a "Story Generator" prompt that follows a specific structure every time.

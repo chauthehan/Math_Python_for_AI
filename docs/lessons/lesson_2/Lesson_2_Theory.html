@@ -1,0 +1,1148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lesson 2: The Architect's Blueprint 🏗️</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-dark: #0a0a12;
+            --bg-card: #141428;
+            --accent-cyan: #00d9ff;
+            --accent-pink: #ff2e97;
+            --accent-gold: #ffd700;
+            --accent-green: #00ff88;
+            --accent-purple: #a855f7;
+            --accent-orange: #ff8c00;
+            --accent-blue: #4facfe;
+            --text-primary: #ffffff;
+            --text-secondary: #a0a0b8;
+            --gradient-1: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            --gradient-2: linear-gradient(135deg, #ff8c00 0%, #ff2e97 100%);
+            --gradient-3: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+            --gradient-cyber: linear-gradient(135deg, #0a0a12 0%, #141428 50%, #1e1b4b 100%);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Outfit', sans-serif;
+            background: var(--gradient-cyber);
+            color: var(--text-primary);
+            line-height: 1.7;
+            overflow-x: hidden;
+            min-height: 100vh;
+        }
+
+        /* Animated background with blueprint pattern */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                linear-gradient(90deg, rgba(79, 172, 254, 0.03) 1px, transparent 1px),
+                linear-gradient(rgba(79, 172, 254, 0.03) 1px, transparent 1px),
+                radial-gradient(circle at 20% 80%, rgba(255, 140, 0, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(0, 217, 255, 0.1) 0%, transparent 50%);
+            background-size: 50px 50px, 50px 50px, 100% 100%, 100% 100%;
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        /* Header */
+        header {
+            text-align: center;
+            padding: 80px 20px 60px;
+            position: relative;
+        }
+
+        .lesson-badge {
+            display: inline-block;
+            background: var(--gradient-2);
+            padding: 8px 24px;
+            border-radius: 50px;
+            font-size: 0.9em;
+            font-weight: 600;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            margin-bottom: 20px;
+            animation: glow 2s ease-in-out infinite alternate;
+        }
+
+        @keyframes glow {
+            from { box-shadow: 0 0 20px rgba(255, 140, 0, 0.3); }
+            to { box-shadow: 0 0 40px rgba(255, 140, 0, 0.6); }
+        }
+
+        header h1 {
+            font-size: 3.5em;
+            font-weight: 800;
+            background: linear-gradient(135deg, var(--accent-orange), var(--accent-cyan), var(--accent-gold));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 20px;
+            animation: fadeInUp 1s ease-out;
+        }
+
+        header .subtitle {
+            font-size: 1.4em;
+            color: var(--text-secondary);
+            font-weight: 300;
+        }
+
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Sections */
+        .section {
+            background: var(--bg-card);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 24px;
+            padding: 50px;
+            margin: 40px 0;
+            position: relative;
+            overflow: hidden;
+            backdrop-filter: blur(10px);
+            animation: slideIn 0.8s ease-out;
+        }
+
+        .section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: var(--gradient-2);
+        }
+
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateX(-30px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+
+        .section h2 {
+            font-size: 2.2em;
+            font-weight: 700;
+            margin-bottom: 25px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .section h2 .icon {
+            font-size: 1.2em;
+            animation: bounce 2s infinite;
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-8px); }
+        }
+
+        .section h3 {
+            font-size: 1.5em;
+            color: var(--accent-cyan);
+            margin: 35px 0 20px;
+            font-weight: 600;
+        }
+
+        .section p {
+            font-size: 1.15em;
+            color: var(--text-secondary);
+            margin-bottom: 18px;
+        }
+
+        .highlight {
+            color: var(--accent-gold);
+            font-weight: 600;
+        }
+
+        .highlight-orange {
+            color: var(--accent-orange);
+            font-weight: 600;
+        }
+
+        /* Big Idea Box */
+        .big-idea {
+            background: linear-gradient(135deg, rgba(255, 140, 0, 0.15) 0%, rgba(0, 217, 255, 0.15) 100%);
+            border: 2px solid var(--accent-orange);
+            border-radius: 20px;
+            padding: 35px;
+            margin: 35px 0;
+            text-align: center;
+        }
+
+        .big-idea h3 {
+            color: var(--accent-orange);
+            font-size: 1.8em;
+            margin-bottom: 15px;
+        }
+
+        .big-idea p {
+            font-size: 1.3em;
+            color: var(--text-primary);
+        }
+
+        /* 4 Pillars Grid */
+        .pillars-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 25px;
+            margin: 40px 0;
+        }
+
+        .pillar-card {
+            padding: 30px;
+            border-radius: 20px;
+            position: relative;
+            overflow: hidden;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            cursor: pointer;
+        }
+
+        .pillar-card:hover {
+            transform: translateY(-10px);
+        }
+
+        .pillar-card.instruction {
+            background: linear-gradient(135deg, rgba(79, 172, 254, 0.15) 0%, rgba(79, 172, 254, 0.05) 100%);
+            border: 2px solid var(--accent-blue);
+        }
+        .pillar-card.instruction:hover { box-shadow: 0 20px 50px rgba(79, 172, 254, 0.3); }
+
+        .pillar-card.context {
+            background: linear-gradient(135deg, rgba(0, 255, 136, 0.15) 0%, rgba(0, 255, 136, 0.05) 100%);
+            border: 2px solid var(--accent-green);
+        }
+        .pillar-card.context:hover { box-shadow: 0 20px 50px rgba(0, 255, 136, 0.3); }
+
+        .pillar-card.input-data {
+            background: linear-gradient(135deg, rgba(255, 215, 0, 0.15) 0%, rgba(255, 215, 0, 0.05) 100%);
+            border: 2px solid var(--accent-gold);
+        }
+        .pillar-card.input-data:hover { box-shadow: 0 20px 50px rgba(255, 215, 0, 0.3); }
+
+        .pillar-card.output {
+            background: linear-gradient(135deg, rgba(255, 46, 151, 0.15) 0%, rgba(255, 46, 151, 0.05) 100%);
+            border: 2px solid var(--accent-pink);
+        }
+        .pillar-card.output:hover { box-shadow: 0 20px 50px rgba(255, 46, 151, 0.3); }
+
+        .pillar-number {
+            position: absolute;
+            top: 15px;
+            right: 20px;
+            font-size: 3em;
+            font-weight: 800;
+            opacity: 0.2;
+        }
+
+        .pillar-card.instruction .pillar-number { color: var(--accent-blue); }
+        .pillar-card.context .pillar-number { color: var(--accent-green); }
+        .pillar-card.input-data .pillar-number { color: var(--accent-gold); }
+        .pillar-card.output .pillar-number { color: var(--accent-pink); }
+
+        .pillar-icon {
+            font-size: 2.5em;
+            margin-bottom: 15px;
+        }
+
+        .pillar-card h4 {
+            font-size: 1.4em;
+            margin-bottom: 12px;
+        }
+
+        .pillar-card.instruction h4 { color: var(--accent-blue); }
+        .pillar-card.context h4 { color: var(--accent-green); }
+        .pillar-card.input-data h4 { color: var(--accent-gold); }
+        .pillar-card.output h4 { color: var(--accent-pink); }
+
+        .pillar-card p {
+            font-size: 1em;
+            color: var(--text-secondary);
+            margin: 0;
+        }
+
+        .pillar-card .example {
+            margin-top: 15px;
+            padding: 12px;
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 10px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.85em;
+            color: var(--accent-cyan);
+        }
+
+        /* Code Examples */
+        .code-block {
+            background: #0d0d14;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 16px;
+            padding: 25px;
+            margin: 20px 0;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.95em;
+            overflow-x: auto;
+            position: relative;
+        }
+
+        .code-block::before {
+            content: attr(data-label);
+            position: absolute;
+            top: -12px;
+            left: 20px;
+            background: var(--bg-card);
+            padding: 4px 12px;
+            border-radius: 8px;
+            font-size: 0.8em;
+            color: var(--accent-orange);
+            font-weight: 600;
+        }
+
+        .code-block code {
+            color: var(--accent-cyan);
+        }
+
+        .code-block .comment {
+            color: #6b7280;
+        }
+
+        .code-block .string {
+            color: var(--accent-green);
+        }
+
+        .code-block .keyword {
+            color: var(--accent-pink);
+        }
+
+        .code-block .delimiter {
+            color: var(--accent-gold);
+            font-weight: bold;
+        }
+
+        /* Delimiter Demo */
+        .delimiter-demo {
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 20px;
+            padding: 30px;
+            margin: 30px 0;
+        }
+
+        .delimiter-types {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+            margin: 25px 0;
+        }
+
+        .delimiter-card {
+            background: rgba(255, 255, 255, 0.03);
+            border: 2px solid rgba(255, 255, 255, 0.15);
+            border-radius: 16px;
+            padding: 25px;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .delimiter-card:hover {
+            border-color: var(--accent-gold);
+            transform: translateY(-5px);
+        }
+
+        .delimiter-card .symbol {
+            font-size: 2.5em;
+            font-family: 'JetBrains Mono', monospace;
+            color: var(--accent-gold);
+            margin-bottom: 10px;
+        }
+
+        .delimiter-card h5 {
+            color: var(--text-primary);
+            font-size: 1.1em;
+            margin-bottom: 8px;
+        }
+
+        .delimiter-card p {
+            font-size: 0.9em;
+            color: var(--text-secondary);
+            margin: 0;
+        }
+
+        /* Format Examples */
+        .format-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 25px;
+            margin: 30px 0;
+        }
+
+        .format-card {
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 16px;
+            padding: 25px;
+            transition: all 0.3s ease;
+        }
+
+        .format-card:hover {
+            transform: scale(1.02);
+        }
+
+        .format-card h4 {
+            color: var(--accent-cyan);
+            margin-bottom: 15px;
+            font-size: 1.2em;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .format-card .prompt {
+            background: #0d0d14;
+            padding: 15px;
+            border-radius: 10px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.85em;
+            color: var(--accent-cyan);
+            margin-bottom: 15px;
+        }
+
+        .format-card .result {
+            background: rgba(0, 255, 136, 0.1);
+            border-left: 4px solid var(--accent-green);
+            padding: 15px;
+            border-radius: 0 10px 10px 0;
+            font-size: 0.95em;
+            color: var(--text-secondary);
+        }
+
+        .format-card .result ul, .format-card .result ol {
+            margin: 0;
+            padding-left: 20px;
+        }
+
+        .format-card .result li {
+            margin: 8px 0;
+        }
+
+        .format-card .result table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+        }
+
+        .format-card .result th, .format-card .result td {
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            padding: 8px 12px;
+            text-align: left;
+        }
+
+        .format-card .result th {
+            background: rgba(0, 217, 255, 0.2);
+            color: var(--accent-cyan);
+        }
+
+        /* Blueprint Example */
+        .blueprint-example {
+            background: linear-gradient(135deg, rgba(79, 172, 254, 0.1) 0%, rgba(255, 140, 0, 0.1) 100%);
+            border: 2px dashed var(--accent-blue);
+            border-radius: 20px;
+            padding: 30px;
+            margin: 30px 0;
+        }
+
+        .blueprint-example h4 {
+            color: var(--accent-blue);
+            font-size: 1.3em;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .blueprint-section {
+            margin: 15px 0;
+            padding: 15px;
+            border-radius: 12px;
+            position: relative;
+        }
+
+        .blueprint-section::before {
+            content: attr(data-pillar);
+            position: absolute;
+            top: -10px;
+            left: 15px;
+            padding: 2px 10px;
+            border-radius: 20px;
+            font-size: 0.75em;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+
+        .blueprint-section.instruction {
+            background: rgba(79, 172, 254, 0.15);
+            border-left: 4px solid var(--accent-blue);
+        }
+        .blueprint-section.instruction::before {
+            background: var(--accent-blue);
+            color: var(--bg-dark);
+        }
+
+        .blueprint-section.context {
+            background: rgba(0, 255, 136, 0.15);
+            border-left: 4px solid var(--accent-green);
+        }
+        .blueprint-section.context::before {
+            background: var(--accent-green);
+            color: var(--bg-dark);
+        }
+
+        .blueprint-section.input-data {
+            background: rgba(255, 215, 0, 0.15);
+            border-left: 4px solid var(--accent-gold);
+        }
+        .blueprint-section.input-data::before {
+            background: var(--accent-gold);
+            color: var(--bg-dark);
+        }
+
+        .blueprint-section.output {
+            background: rgba(255, 46, 151, 0.15);
+            border-left: 4px solid var(--accent-pink);
+        }
+        .blueprint-section.output::before {
+            background: var(--accent-pink);
+            color: var(--bg-dark);
+        }
+
+        .blueprint-section p {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.95em;
+            color: var(--text-primary);
+            margin: 0;
+            margin-top: 5px;
+        }
+
+        /* Real World Analogy */
+        .analogy-box {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            margin: 35px 0;
+        }
+
+        .analogy-card {
+            padding: 30px;
+            border-radius: 20px;
+            text-align: center;
+        }
+
+        .analogy-card.real {
+            background: linear-gradient(135deg, rgba(255, 140, 0, 0.15) 0%, rgba(255, 140, 0, 0.05) 100%);
+            border: 2px solid var(--accent-orange);
+        }
+
+        .analogy-card.ai {
+            background: linear-gradient(135deg, rgba(0, 217, 255, 0.15) 0%, rgba(0, 217, 255, 0.05) 100%);
+            border: 2px solid var(--accent-cyan);
+        }
+
+        .analogy-card .analogy-icon {
+            font-size: 3em;
+            margin-bottom: 15px;
+        }
+
+        .analogy-card h4 {
+            font-size: 1.3em;
+            margin-bottom: 15px;
+        }
+
+        .analogy-card.real h4 { color: var(--accent-orange); }
+        .analogy-card.ai h4 { color: var(--accent-cyan); }
+
+        .analogy-card p {
+            color: var(--text-secondary);
+            font-size: 1em;
+            margin: 0;
+        }
+
+        /* Interactive Quiz */
+        .quiz-section {
+            background: linear-gradient(135deg, rgba(168, 85, 247, 0.1) 0%, rgba(59, 130, 246, 0.1) 100%);
+            border: 2px solid var(--accent-purple);
+            border-radius: 24px;
+            padding: 40px;
+            margin: 40px 0;
+        }
+
+        .quiz-question {
+            background: rgba(0, 0, 0, 0.3);
+            padding: 30px;
+            border-radius: 16px;
+            margin: 20px 0;
+        }
+
+        .quiz-question h4 {
+            color: var(--accent-cyan);
+            margin-bottom: 20px;
+            font-size: 1.2em;
+        }
+
+        .quiz-options {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .quiz-option {
+            background: rgba(255, 255, 255, 0.05);
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            border-radius: 12px;
+            padding: 15px 20px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 1em;
+            color: var(--text-secondary);
+        }
+
+        .quiz-option:hover {
+            border-color: var(--accent-cyan);
+            background: rgba(0, 217, 255, 0.1);
+        }
+
+        .quiz-option.correct {
+            border-color: var(--accent-green) !important;
+            background: rgba(0, 255, 136, 0.2) !important;
+            color: var(--accent-green) !important;
+        }
+
+        .quiz-option.incorrect {
+            border-color: #ef4444 !important;
+            background: rgba(239, 68, 68, 0.2) !important;
+            color: #fca5a5 !important;
+        }
+
+        .quiz-feedback {
+            margin-top: 20px;
+            padding: 20px;
+            border-radius: 12px;
+            display: none;
+        }
+
+        .quiz-feedback.show {
+            display: block;
+            animation: fadeInUp 0.4s ease;
+        }
+
+        .quiz-feedback.success {
+            background: rgba(0, 255, 136, 0.15);
+            border: 1px solid var(--accent-green);
+            color: var(--accent-green);
+        }
+
+        .quiz-feedback.error {
+            background: rgba(239, 68, 68, 0.15);
+            border: 1px solid #ef4444;
+            color: #fca5a5;
+        }
+
+        /* Key Takeaways */
+        .takeaways {
+            background: linear-gradient(135deg, rgba(255, 140, 0, 0.1) 0%, rgba(255, 140, 0, 0.02) 100%);
+            border: 2px solid var(--accent-orange);
+            border-radius: 20px;
+            padding: 40px;
+            margin: 40px 0;
+        }
+
+        .takeaways h3 {
+            color: var(--accent-orange);
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .takeaway-list {
+            list-style: none;
+            padding: 0;
+        }
+
+        .takeaway-list li {
+            padding: 15px 20px;
+            margin: 12px 0;
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 12px;
+            font-size: 1.1em;
+            color: var(--text-primary);
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .takeaway-list li .num {
+            background: var(--accent-orange);
+            color: var(--bg-dark);
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            flex-shrink: 0;
+        }
+
+        /* CTA Section */
+        .cta-section {
+            text-align: center;
+            padding: 60px 40px;
+            background: linear-gradient(135deg, rgba(255, 140, 0, 0.1) 0%, rgba(0, 217, 255, 0.1) 100%);
+            border: 2px solid var(--accent-orange);
+            border-radius: 30px;
+            margin: 50px 0;
+        }
+
+        .cta-section h2 {
+            font-size: 2.5em;
+            margin-bottom: 20px;
+            justify-content: center;
+        }
+
+        .cta-section p {
+            font-size: 1.2em;
+            margin-bottom: 30px;
+        }
+
+        .cta-button {
+            display: inline-block;
+            background: var(--gradient-2);
+            color: white;
+            text-decoration: none;
+            padding: 18px 50px;
+            border-radius: 50px;
+            font-size: 1.2em;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            box-shadow: 0 10px 30px rgba(255, 140, 0, 0.3);
+        }
+
+        .cta-button:hover {
+            transform: translateY(-5px) scale(1.05);
+            box-shadow: 0 20px 50px rgba(255, 140, 0, 0.5);
+        }
+
+        /* Responsive */
+        @media (max-width: 900px) {
+            .pillars-grid,
+            .analogy-box,
+            .format-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .delimiter-types {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 600px) {
+            header h1 {
+                font-size: 2.2em;
+            }
+
+            .section {
+                padding: 30px 20px;
+            }
+
+            .pillar-card {
+                padding: 20px;
+            }
+        }
+
+        /* Scroll animations */
+        .section {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.6s ease-out;
+        }
+
+        .section.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="lesson-badge">Module 2 • Lesson 2</div>
+            <h1>The Architect's Blueprint 🏗️</h1>
+            <p class="subtitle">Learn how to build prompts like a pro for results you can count on</p>
+        </header>
+
+        <!-- Section 1: The Blueprint Idea -->
+        <div class="section">
+            <h2><span class="icon">🏠</span> Think Like an Architect</h2>
+            
+            <p>Have you ever built something with LEGO? Before you start, you look at the picture on the box. That picture is like a <span class="highlight">blueprint</span>—it shows exactly what you're going to build and how to build it.</p>
+
+            <div class="big-idea">
+                <h3>🎯 The Big Idea</h3>
+                <p>Writing prompts is like being an architect. If you follow a good <strong>blueprint</strong>, you'll get the same great results every time!</p>
+            </div>
+
+            <div class="analogy-box">
+                <div class="analogy-card real">
+                    <div class="analogy-icon">🏗️</div>
+                    <h4>Building a House</h4>
+                    <p>An architect's blueprint shows:<br>• What rooms to build<br>• How big each room is<br>• Where the doors and windows go<br>• What materials to use</p>
+                </div>
+                <div class="analogy-card ai">
+                    <div class="analogy-icon">🤖</div>
+                    <h4>Building a Prompt</h4>
+                    <p>Your prompt blueprint shows:<br>• What you want the AI to do<br>• Background info it needs<br>• The data to work with<br>• How to show the answer</p>
+                </div>
+            </div>
+
+            <p>Just like how every house built from the same blueprint looks the same, every prompt built from the same structure gives you <span class="highlight-orange">consistent results</span>!</p>
+        </div>
+
+        <!-- Section 2: The 4 Pillars -->
+        <div class="section">
+            <h2><span class="icon">🏛️</span> The 4 Pillars of a Great Prompt</h2>
+            
+            <p>Think of these 4 pillars like the 4 walls of a house. You need all of them to make something strong! Each pillar has a special job:</p>
+
+            <div class="pillars-grid">
+                <div class="pillar-card instruction">
+                    <div class="pillar-number">1</div>
+                    <div class="pillar-icon">📋</div>
+                    <h4>Instruction</h4>
+                    <p>Tell the AI exactly <strong>what to do</strong>. This is the main job you're giving it.</p>
+                    <div class="example">"Write a short story about..."<br>"Make a list of..."<br>"Explain how to..."</div>
+                </div>
+                <div class="pillar-card context">
+                    <div class="pillar-number">2</div>
+                    <div class="pillar-icon">🎭</div>
+                    <h4>Context</h4>
+                    <p>Give <strong>background info</strong> so the AI understands the situation better.</p>
+                    <div class="example">"You are a friendly teacher..."<br>"This is for a 10-year-old..."<br>"I'm making a school project..."</div>
+                </div>
+                <div class="pillar-card input-data">
+                    <div class="pillar-number">3</div>
+                    <div class="pillar-icon">📦</div>
+                    <h4>Input Data</h4>
+                    <p>The actual <strong>information or text</strong> you want the AI to work with.</p>
+                    <div class="example">"Here is my essay: [text]"<br>"Use these words: cat, moon, magic"<br>"Based on this code: [code]"</div>
+                </div>
+                <div class="pillar-card output">
+                    <div class="pillar-number">4</div>
+                    <div class="pillar-icon">🎨</div>
+                    <h4>Output Indicator</h4>
+                    <p>Tell the AI <strong>how to show</strong> its answer—the format you want.</p>
+                    <div class="example">"Give me a bullet list"<br>"Reply in a table"<br>"Keep it under 100 words"</div>
+                </div>
+            </div>
+
+            <div class="big-idea">
+                <h3>💡 Easy Way to Remember</h3>
+                <p><strong>I</strong>nstruction • <strong>C</strong>ontext • <strong>I</strong>nput • <strong>O</strong>utput = <strong>ICIO</strong><br>Think: "I See I/O" (like computer input/output!)</p>
+            </div>
+        </div>
+
+        <!-- Section 3: Delimiters -->
+        <div class="section">
+            <h2><span class="icon">🔲</span> Delimiters: Your Secret Separators</h2>
+            
+            <p>Remember how in Python we use quotes <code class="code-inline">" "</code> to show where a string starts and ends? <span class="highlight">Delimiters</span> do the same thing in prompts—they show the AI where different parts begin and end!</p>
+
+            <h3>Why Do We Need Them?</h3>
+            <p>Imagine you're reading a book where all the chapters run together with no breaks. Confusing, right? Delimiters are like chapter headings—they help the AI know: "Okay, the instructions ended. Now here's the data to work with!"</p>
+
+            <div class="delimiter-demo">
+                <h4 style="color: var(--accent-gold); margin-bottom: 20px;">🎯 Common Delimiters You Can Use</h4>
+                <div class="delimiter-types">
+                    <div class="delimiter-card">
+                        <div class="symbol">###</div>
+                        <h5>Hash Marks</h5>
+                        <p>Great for separating sections</p>
+                    </div>
+                    <div class="delimiter-card">
+                        <div class="symbol">"""</div>
+                        <h5>Triple Quotes</h5>
+                        <p>Perfect for wrapping text data</p>
+                    </div>
+                    <div class="delimiter-card">
+                        <div class="symbol">---</div>
+                        <h5>Dashes</h5>
+                        <p>Good for making breaks</p>
+                    </div>
+                </div>
+            </div>
+
+            <h3>See Delimiters in Action</h3>
+
+            <div class="code-block" data-label="Without Delimiters (Confusing!)">
+                <code><span class="string">Summarize this text and tell me the main idea the cat sat on the mat and looked at the moon the moon was bright and full</span></code>
+            </div>
+
+            <p>The AI might get confused: Where does the instruction end? Where does the text begin? 🤷</p>
+
+            <div class="code-block" data-label="With Delimiters (Clear!)">
+                <code><span class="keyword">Summarize this text and tell me the main idea:</span></code><br><br>
+                <code><span class="delimiter">###</span></code><br>
+                <code><span class="string">The cat sat on the mat and looked at the moon. The moon was bright and full.</span></code><br>
+                <code><span class="delimiter">###</span></code>
+            </div>
+
+            <p>Now the AI knows: "Everything between the <span class="highlight">###</span> marks is the text I need to summarize!"</p>
+
+            <div class="code-block" data-label="Another Example with Triple Quotes">
+                <code><span class="keyword">Check this code for mistakes:</span></code><br><br>
+                <code><span class="delimiter">"""</span></code><br>
+                <code><span class="string">def say_hello():</span></code><br>
+                <code><span class="string">    print("Hello World")</span></code><br>
+                <code><span class="delimiter">"""</span></code><br><br>
+                <code><span class="keyword">List any bugs you find as bullet points.</span></code>
+            </div>
+        </div>
+
+        <!-- Section 4: Formatting Output -->
+        <div class="section">
+            <h2><span class="icon">📊</span> Formatting: Get Answers YOUR Way</h2>
+            
+            <p>One of the coolest things about prompts is that you can tell the AI <span class="highlight">exactly how</span> you want your answer to look! It's like ordering a pizza and choosing if you want it sliced into 6 pieces or 8 pieces.</p>
+
+            <h3>Popular Formats You Can Request</h3>
+
+            <div class="format-grid">
+                <div class="format-card">
+                    <h4>📝 Bullet Points</h4>
+                    <div class="prompt">"List 3 facts about dogs as bullet points"</div>
+                    <div class="result">
+                        <ul>
+                            <li>Dogs have been human companions for over 15,000 years</li>
+                            <li>A dog's nose print is unique, like a human fingerprint</li>
+                            <li>Dogs can learn more than 1,000 words</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="format-card">
+                    <h4>🔢 Numbered List</h4>
+                    <div class="prompt">"Give me 3 steps to make a sandwich as a numbered list"</div>
+                    <div class="result">
+                        <ol>
+                            <li>Get two slices of bread</li>
+                            <li>Add your favorite filling (cheese, ham, etc.)</li>
+                            <li>Put the slices together and enjoy!</li>
+                        </ol>
+                    </div>
+                </div>
+                <div class="format-card">
+                    <h4>📋 Table</h4>
+                    <div class="prompt">"Compare cats and dogs in a table with 3 rows"</div>
+                    <div class="result">
+                        <table>
+                            <tr><th>Feature</th><th>Cats</th><th>Dogs</th></tr>
+                            <tr><td>Sound</td><td>Meow</td><td>Bark</td></tr>
+                            <tr><td>Size</td><td>Small-Medium</td><td>Small-Large</td></tr>
+                            <tr><td>Care</td><td>Low</td><td>Medium-High</td></tr>
+                        </table>
+                    </div>
+                </div>
+                <div class="format-card">
+                    <h4>📖 Step-by-Step</h4>
+                    <div class="prompt">"Explain photosynthesis step by step for a 10-year-old"</div>
+                    <div class="result">
+                        <strong>Step 1:</strong> The plant's leaves catch sunlight<br><br>
+                        <strong>Step 2:</strong> Roots drink water from the soil<br><br>
+                        <strong>Step 3:</strong> The plant mixes sunlight + water + air to make food!
+                    </div>
+                </div>
+            </div>
+
+            <div class="big-idea">
+                <h3>🎨 Format Magic Words</h3>
+                <p>Try using these phrases: "as bullet points" • "in a table" • "numbered list" • "step by step" • "in [X] words or less" • "as a JSON object"</p>
+            </div>
+        </div>
+
+        <!-- Section 5: Complete Blueprint Example -->
+        <div class="section">
+            <h2><span class="icon">🎯</span> Putting It All Together</h2>
+            
+            <p>Let's build a complete prompt using all 4 pillars and delimiters! Watch how each part works together:</p>
+
+            <div class="blueprint-example">
+                <h4>📐 Complete Prompt Blueprint</h4>
+                
+                <div class="blueprint-section context" data-pillar="Context">
+                    <p>You are a creative children's book author who writes fun, exciting stories.</p>
+                </div>
+                
+                <div class="blueprint-section instruction" data-pillar="Instruction">
+                    <p>Write a short adventure story using all the elements I give you below.</p>
+                </div>
+                
+                <div class="blueprint-section input-data" data-pillar="Input Data">
+                    <p>###<br>
+                    Character: A brave little robot named Sparky<br>
+                    Setting: A magical forest<br>
+                    Problem: Sparky needs to find a lost kitten<br>
+                    ###</p>
+                </div>
+                
+                <div class="blueprint-section output" data-pillar="Output">
+                    <p>The story should be exactly 5 sentences long and end with a happy ending.</p>
+                </div>
+            </div>
+
+            <h3>Why This Works So Well</h3>
+            <p>Each pillar does its job:</p>
+            <ul style="color: var(--text-secondary); margin-left: 20px; margin-bottom: 20px;">
+                <li style="margin: 10px 0;"><span style="color: var(--accent-green);">Context</span> tells the AI WHO to be (a children's book author)</li>
+                <li style="margin: 10px 0;"><span style="color: var(--accent-blue);">Instruction</span> tells the AI WHAT to do (write a story)</li>
+                <li style="margin: 10px 0;"><span style="color: var(--accent-gold);">Input Data</span> gives the INGREDIENTS to use (Sparky, forest, kitten)</li>
+                <li style="margin: 10px 0;"><span style="color: var(--accent-pink);">Output</span> tells HOW to format it (5 sentences, happy ending)</li>
+            </ul>
+
+            <p>The <span class="highlight">### delimiters</span> clearly separate the story elements so the AI doesn't get confused!</p>
+        </div>
+
+        <!-- Quiz Section -->
+        <div class="section quiz-section">
+            <h2><span class="icon">🧪</span> Test Your Knowledge!</h2>
+            
+            <div class="quiz-question" id="q1">
+                <h4>Question 1: What are the 4 pillars of a great prompt?</h4>
+                <div class="quiz-options">
+                    <div class="quiz-option" onclick="checkAnswer(this, 'q1', false)">A) Title, Body, Footer, Signature</div>
+                    <div class="quiz-option" onclick="checkAnswer(this, 'q1', true)">B) Instruction, Context, Input Data, Output Indicator</div>
+                    <div class="quiz-option" onclick="checkAnswer(this, 'q1', false)">C) Who, What, When, Where</div>
+                    <div class="quiz-option" onclick="checkAnswer(this, 'q1', false)">D) Start, Middle, End, Summary</div>
+                </div>
+                <div class="quiz-feedback" id="q1-feedback"></div>
+            </div>
+
+            <div class="quiz-question" id="q2">
+                <h4>Question 2: What do delimiters like ### or """ do in a prompt?</h4>
+                <div class="quiz-options">
+                    <div class="quiz-option" onclick="checkAnswer(this, 'q2', false)">A) Make the prompt look prettier</div>
+                    <div class="quiz-option" onclick="checkAnswer(this, 'q2', false)">B) Make the AI respond faster</div>
+                    <div class="quiz-option" onclick="checkAnswer(this, 'q2', true)">C) Separate different parts so the AI knows where each section starts and ends</div>
+                    <div class="quiz-option" onclick="checkAnswer(this, 'q2', false)">D) They don't do anything special</div>
+                </div>
+                <div class="quiz-feedback" id="q2-feedback"></div>
+            </div>
+
+            <div class="quiz-question" id="q3">
+                <h4>Question 3: Which pillar tells the AI HOW to format its answer?</h4>
+                <div class="quiz-options">
+                    <div class="quiz-option" onclick="checkAnswer(this, 'q3', false)">A) Instruction</div>
+                    <div class="quiz-option" onclick="checkAnswer(this, 'q3', false)">B) Context</div>
+                    <div class="quiz-option" onclick="checkAnswer(this, 'q3', false)">C) Input Data</div>
+                    <div class="quiz-option" onclick="checkAnswer(this, 'q3', true)">D) Output Indicator</div>
+                </div>
+                <div class="quiz-feedback" id="q3-feedback"></div>
+            </div>
+
+            <div class="quiz-question" id="q4">
+                <h4>Question 4: If you want the AI to respond with a table, which phrase should you add?</h4>
+                <div class="quiz-options">
+                    <div class="quiz-option" onclick="checkAnswer(this, 'q4', false)">A) "Make it look nice"</div>
+                    <div class="quiz-option" onclick="checkAnswer(this, 'q4', true)">B) "Format your response as a table"</div>
+                    <div class="quiz-option" onclick="checkAnswer(this, 'q4', false)">C) "Use columns please"</div>
+                    <div class="quiz-option" onclick="checkAnswer(this, 'q4', false)">D) "Organize it well"</div>
+                </div>
+                <div class="quiz-feedback" id="q4-feedback"></div>
+            </div>
+        </div>
+
+        <!-- Key Takeaways -->
+        <div class="section">
+            <div class="takeaways">
+                <h3>📝 Key Takeaways from This Lesson</h3>
+                <ul class="takeaway-list">
+                    <li><span class="num">1</span><strong>Use the 4 pillars</strong>—Instruction, Context, Input Data, and Output Indicator</li>
+                    <li><span class="num">2</span><strong>Delimiters (### or """)</strong> help separate parts so the AI doesn't get confused</li>
+                    <li><span class="num">3</span><strong>Tell the AI how to format</strong>—bullet points, tables, numbered lists, etc.</li>
+                    <li><span class="num">4</span><strong>Structure = Consistency</strong>—same blueprint = same quality results every time</li>
+                    <li><span class="num">5</span><strong>Think like an architect</strong>—plan your prompt before you write it!</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- CTA -->
+        <div class="cta-section">
+            <h2><span class="icon">🚀</span> Ready to Build?</h2>
+            <p>Now it's time to practice building your own prompts using the blueprint!</p>
+            <p style="margin-bottom: 30px; color: var(--text-secondary);">Create a Story Generator that makes amazing stories every single time using the 4 pillars.</p>
+            <a href="Lesson_2_Practice.html" class="cta-button">Start Building! 🏗️</a>
+        </div>
+    </div>
+
+    <script>
+        // Quiz functionality
+        function checkAnswer(element, questionId, isCorrect) {
+            const question = document.getElementById(questionId);
+            const options = question.querySelectorAll('.quiz-option');
+            const feedback = document.getElementById(`${questionId}-feedback`);
+
+            // Disable all options
+            options.forEach(opt => {
+                opt.style.pointerEvents = 'none';
+            });
+
+            if (isCorrect) {
+                element.classList.add('correct');
+                feedback.className = 'quiz-feedback show success';
+                feedback.innerHTML = '✅ Correct! Great job!';
+            } else {
+                element.classList.add('incorrect');
+                feedback.className = 'quiz-feedback show error';
+                feedback.innerHTML = '❌ Not quite. Try to remember the key concepts from the lesson!';
+                // Show correct answer
+                options.forEach(opt => {
+                    if (opt.onclick.toString().includes('true')) {
+                        opt.classList.add('correct');
+                    }
+                });
+            }
+        }
+
+        // Scroll animations
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.section').forEach(section => {
+            observer.observe(section);
+        });
+    </script>
+</body>
+</html>
+

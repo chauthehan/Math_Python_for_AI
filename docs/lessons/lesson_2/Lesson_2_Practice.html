@@ -1,0 +1,1931 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Practice: The Architect's Blueprint 🏗️</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-dark: #0a0a12;
+            --bg-card: #141428;
+            --accent-cyan: #00d9ff;
+            --accent-pink: #ff2e97;
+            --accent-gold: #ffd700;
+            --accent-green: #00ff88;
+            --accent-purple: #a855f7;
+            --accent-blue: #4facfe;
+            --accent-orange: #ff8c00;
+            --text-primary: #ffffff;
+            --text-secondary: #a0a0b8;
+            --gradient-1: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            --gradient-2: linear-gradient(135deg, #ff8c00 0%, #ff2e97 100%);
+            --gradient-3: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+            --gradient-cyber: linear-gradient(135deg, #0a0a12 0%, #141428 50%, #1e1b4b 100%);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Outfit', sans-serif;
+            background: var(--gradient-cyber);
+            color: var(--text-primary);
+            line-height: 1.7;
+            overflow-x: hidden;
+            min-height: 100vh;
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                linear-gradient(90deg, rgba(79, 172, 254, 0.03) 1px, transparent 1px),
+                linear-gradient(rgba(79, 172, 254, 0.03) 1px, transparent 1px),
+                radial-gradient(circle at 20% 80%, rgba(255, 140, 0, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(0, 217, 255, 0.1) 0%, transparent 50%);
+            background-size: 50px 50px, 50px 50px, 100% 100%, 100% 100%;
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        /* Header */
+        header {
+            text-align: center;
+            padding: 60px 20px 40px;
+            position: relative;
+        }
+
+        .lesson-badge {
+            display: inline-block;
+            background: var(--gradient-3);
+            padding: 8px 24px;
+            border-radius: 50px;
+            font-size: 0.9em;
+            font-weight: 600;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            margin-bottom: 20px;
+            animation: glow 2s ease-in-out infinite alternate;
+        }
+
+        @keyframes glow {
+            from { box-shadow: 0 0 20px rgba(79, 172, 254, 0.3); }
+            to { box-shadow: 0 0 40px rgba(79, 172, 254, 0.6); }
+        }
+
+        header h1 {
+            font-size: 3em;
+            font-weight: 800;
+            background: linear-gradient(135deg, var(--accent-orange), var(--accent-cyan), var(--accent-green));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 20px;
+        }
+
+        header .subtitle {
+            font-size: 1.3em;
+            color: var(--text-secondary);
+            font-weight: 300;
+        }
+
+        /* Progress Bar */
+        .progress-container {
+            background: var(--bg-card);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 16px;
+            padding: 25px 30px;
+            margin: 30px 0;
+            position: sticky;
+            top: 20px;
+            z-index: 100;
+            backdrop-filter: blur(10px);
+        }
+
+        .progress-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .progress-title {
+            font-size: 1.1em;
+            font-weight: 600;
+            color: var(--accent-orange);
+        }
+
+        .progress-stats {
+            font-size: 0.95em;
+            color: var(--text-secondary);
+        }
+
+        .progress-stats span {
+            color: var(--accent-gold);
+            font-weight: 700;
+        }
+
+        .reset-btn {
+            background: transparent;
+            border: 1px solid rgba(239, 68, 68, 0.4);
+            color: #fca5a5;
+            padding: 6px 14px;
+            border-radius: 8px;
+            font-size: 0.8em;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-left: 15px;
+        }
+
+        .reset-btn:hover {
+            background: rgba(239, 68, 68, 0.15);
+            border-color: #ef4444;
+            color: #ef4444;
+        }
+
+        .progress-bar {
+            height: 12px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--accent-orange), var(--accent-cyan));
+            border-radius: 10px;
+            width: 0%;
+            transition: width 0.5s ease;
+        }
+
+        .challenge-dots {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 15px;
+            padding: 0 10px;
+        }
+
+        .challenge-dot {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.1);
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 0.9em;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .challenge-dot.active {
+            border-color: var(--accent-orange);
+            background: rgba(255, 140, 0, 0.2);
+            color: var(--accent-orange);
+        }
+
+        .challenge-dot.completed {
+            border-color: var(--accent-green);
+            background: var(--accent-green);
+            color: var(--bg-dark);
+        }
+
+        /* Challenge Sections */
+        .challenge {
+            background: var(--bg-card);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 24px;
+            padding: 50px;
+            margin: 40px 0;
+            position: relative;
+            overflow: hidden;
+            backdrop-filter: blur(10px);
+        }
+
+        .challenge::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+        }
+
+        .challenge:nth-child(1)::before { background: linear-gradient(90deg, #4facfe, #00f2fe); }
+        .challenge:nth-child(2)::before { background: linear-gradient(90deg, #10b981, #34d399); }
+        .challenge:nth-child(3)::before { background: linear-gradient(90deg, #ff8c00, #ffd700); }
+        .challenge:nth-child(4)::before { background: linear-gradient(90deg, #ec4899, #f472b6); }
+        .challenge:nth-child(5)::before { background: linear-gradient(90deg, #a855f7, #c084fc); }
+
+        .challenge-header {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .challenge-number {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5em;
+            font-weight: 800;
+            flex-shrink: 0;
+        }
+
+        .challenge:nth-child(1) .challenge-number { background: linear-gradient(135deg, #4facfe, #00f2fe); }
+        .challenge:nth-child(2) .challenge-number { background: linear-gradient(135deg, #10b981, #059669); }
+        .challenge:nth-child(3) .challenge-number { background: linear-gradient(135deg, #ff8c00, #d97706); }
+        .challenge:nth-child(4) .challenge-number { background: linear-gradient(135deg, #ec4899, #db2777); }
+        .challenge:nth-child(5) .challenge-number { background: linear-gradient(135deg, #a855f7, #9333ea); }
+
+        .challenge-title h2 {
+            font-size: 1.8em;
+            font-weight: 700;
+            margin-bottom: 5px;
+        }
+
+        .challenge-title p {
+            color: var(--text-secondary);
+            font-size: 1em;
+        }
+
+        .challenge-content p {
+            font-size: 1.1em;
+            color: var(--text-secondary);
+            margin-bottom: 25px;
+        }
+
+        /* Quick Reference */
+        .pillars-reference {
+            background: var(--bg-card);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            margin-bottom: 20px;
+            overflow: hidden;
+        }
+
+        .pillars-reference summary {
+            padding: 15px 20px;
+            cursor: pointer;
+            font-weight: 600;
+            color: var(--accent-orange);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            transition: all 0.3s ease;
+        }
+
+        .pillars-reference summary:hover {
+            background: rgba(255, 140, 0, 0.05);
+        }
+
+        .pillars-reference[open] summary {
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .pillars-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 15px;
+            padding: 20px;
+        }
+
+        .pillars-grid > div {
+            text-align: center;
+            padding: 15px;
+            border-radius: 10px;
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .pillars-grid > div strong {
+            font-size: 1.3em;
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        .pillars-grid > div:nth-child(1) strong { color: var(--accent-blue); }
+        .pillars-grid > div:nth-child(2) strong { color: var(--accent-green); }
+        .pillars-grid > div:nth-child(3) strong { color: var(--accent-gold); }
+        .pillars-grid > div:nth-child(4) strong { color: var(--accent-pink); }
+
+        @media (max-width: 700px) {
+            .pillars-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        /* Challenge 1: Pillar Identifier */
+        .pillar-match-card {
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 16px;
+            padding: 25px;
+            margin: 20px 0;
+        }
+
+        .pillar-match-card .prompt-text {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 1em;
+            color: var(--accent-cyan);
+            background: #0d0d14;
+            padding: 20px;
+            border-radius: 12px;
+            margin-bottom: 20px;
+            border-left: 4px solid var(--accent-purple);
+            line-height: 1.8;
+        }
+
+        .pillar-match-card .prompt-text .highlight-instruction {
+            background: rgba(79, 172, 254, 0.3);
+            padding: 2px 6px;
+            border-radius: 4px;
+        }
+
+        .pillar-match-card .prompt-text .highlight-context {
+            background: rgba(0, 255, 136, 0.3);
+            padding: 2px 6px;
+            border-radius: 4px;
+        }
+
+        .pillar-match-card .prompt-text .highlight-input {
+            background: rgba(255, 215, 0, 0.3);
+            padding: 2px 6px;
+            border-radius: 4px;
+        }
+
+        .pillar-match-card .prompt-text .highlight-output {
+            background: rgba(255, 46, 151, 0.3);
+            padding: 2px 6px;
+            border-radius: 4px;
+        }
+
+        .pillar-options {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+
+        .pillar-option {
+            padding: 15px;
+            border-radius: 12px;
+            border: 2px solid rgba(255, 255, 255, 0.15);
+            background: rgba(255, 255, 255, 0.03);
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .pillar-option:hover {
+            transform: translateY(-3px);
+        }
+
+        .pillar-option .icon {
+            font-size: 1.5em;
+            margin-bottom: 8px;
+        }
+
+        .pillar-option .label {
+            font-size: 0.85em;
+            font-weight: 600;
+        }
+
+        .pillar-option[data-pillar="instruction"] { border-color: rgba(79, 172, 254, 0.5); }
+        .pillar-option[data-pillar="instruction"] .label { color: var(--accent-blue); }
+        .pillar-option[data-pillar="instruction"].selected { background: rgba(79, 172, 254, 0.2); border-color: var(--accent-blue); }
+
+        .pillar-option[data-pillar="context"] { border-color: rgba(0, 255, 136, 0.5); }
+        .pillar-option[data-pillar="context"] .label { color: var(--accent-green); }
+        .pillar-option[data-pillar="context"].selected { background: rgba(0, 255, 136, 0.2); border-color: var(--accent-green); }
+
+        .pillar-option[data-pillar="input"] { border-color: rgba(255, 215, 0, 0.5); }
+        .pillar-option[data-pillar="input"] .label { color: var(--accent-gold); }
+        .pillar-option[data-pillar="input"].selected { background: rgba(255, 215, 0, 0.2); border-color: var(--accent-gold); }
+
+        .pillar-option[data-pillar="output"] { border-color: rgba(255, 46, 151, 0.5); }
+        .pillar-option[data-pillar="output"] .label { color: var(--accent-pink); }
+        .pillar-option[data-pillar="output"].selected { background: rgba(255, 46, 151, 0.2); border-color: var(--accent-pink); }
+
+        .text-segment {
+            display: inline-block;
+            padding: 10px 15px;
+            margin: 8px;
+            border-radius: 8px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.9em;
+            color: var(--text-secondary);
+        }
+
+        .text-segment:hover {
+            border-color: var(--accent-cyan);
+        }
+
+        .text-segment.selected {
+            border-color: var(--accent-orange);
+            background: rgba(255, 140, 0, 0.2);
+        }
+
+        .text-segment.correct {
+            border-color: var(--accent-green);
+            background: rgba(0, 255, 136, 0.2);
+            color: var(--accent-green);
+        }
+
+        .text-segment.incorrect {
+            border-color: #ef4444;
+            background: rgba(239, 68, 68, 0.2);
+            color: #fca5a5;
+        }
+
+        /* Buttons */
+        .btn {
+            padding: 15px 35px;
+            border-radius: 12px;
+            border: none;
+            font-size: 1.05em;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-family: 'Outfit', sans-serif;
+        }
+
+        .btn-primary {
+            background: var(--gradient-2);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(255, 140, 0, 0.3);
+        }
+
+        .btn-secondary {
+            background: rgba(255, 255, 255, 0.1);
+            color: var(--text-secondary);
+            border: 2px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .btn-secondary:hover {
+            background: rgba(255, 255, 255, 0.15);
+            color: var(--text-primary);
+        }
+
+        /* Feedback */
+        .feedback {
+            margin-top: 20px;
+            padding: 20px;
+            border-radius: 12px;
+            display: none;
+        }
+
+        .feedback.show {
+            display: block;
+            animation: fadeIn 0.4s ease;
+        }
+
+        .feedback.success {
+            background: rgba(0, 255, 136, 0.15);
+            border: 1px solid var(--accent-green);
+            color: var(--accent-green);
+        }
+
+        .feedback.error {
+            background: rgba(239, 68, 68, 0.15);
+            border: 1px solid #ef4444;
+            color: #fca5a5;
+        }
+
+        .feedback.partial {
+            background: rgba(255, 140, 0, 0.15);
+            border: 1px solid var(--accent-orange);
+            color: var(--accent-orange);
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Challenge 2: Delimiter Doctor */
+        .delimiter-fix-card {
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 16px;
+            padding: 25px;
+            margin: 20px 0;
+        }
+
+        .bad-prompt {
+            background: rgba(239, 68, 68, 0.1);
+            border: 2px solid #ef4444;
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+
+        .bad-prompt .label {
+            font-size: 0.85em;
+            font-weight: 600;
+            color: #ef4444;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 10px;
+        }
+
+        .bad-prompt .prompt {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.95em;
+            color: #fca5a5;
+            line-height: 1.8;
+        }
+
+        .fix-textarea {
+            width: 100%;
+            min-height: 150px;
+            padding: 20px;
+            border-radius: 12px;
+            border: 2px solid rgba(0, 255, 136, 0.3);
+            background: #0d0d14;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.95em;
+            color: var(--accent-cyan);
+            resize: vertical;
+            transition: all 0.3s ease;
+        }
+
+        .fix-textarea:focus {
+            outline: none;
+            border-color: var(--accent-green);
+            box-shadow: 0 0 20px rgba(0, 255, 136, 0.2);
+        }
+
+        .fix-textarea::placeholder {
+            color: rgba(160, 160, 184, 0.5);
+        }
+
+        .hint-box {
+            background: rgba(168, 85, 247, 0.1);
+            border: 1px solid var(--accent-purple);
+            border-radius: 12px;
+            padding: 20px;
+            margin-top: 20px;
+            display: none;
+        }
+
+        .hint-box.show {
+            display: block;
+            animation: fadeIn 0.4s ease;
+        }
+
+        .hint-box h4 {
+            color: var(--accent-purple);
+            margin-bottom: 10px;
+            font-size: 1em;
+        }
+
+        .hint-box p {
+            color: var(--text-secondary);
+            font-size: 0.95em;
+            margin: 0;
+        }
+
+        .solution-box {
+            background: rgba(0, 255, 136, 0.1);
+            border: 2px solid var(--accent-green);
+            border-radius: 12px;
+            padding: 20px;
+            margin-top: 20px;
+            display: none;
+        }
+
+        .solution-box.show {
+            display: block;
+            animation: fadeIn 0.4s ease;
+        }
+
+        .solution-box h4 {
+            color: var(--accent-green);
+            margin-bottom: 10px;
+            font-size: 1em;
+        }
+
+        .solution-box .prompt {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.9em;
+            color: var(--accent-cyan);
+            background: #0d0d14;
+            padding: 15px;
+            border-radius: 8px;
+            margin-top: 10px;
+            white-space: pre-wrap;
+        }
+
+        /* Challenge 3: Format Selector */
+        .format-challenge {
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 16px;
+            padding: 25px;
+            margin: 20px 0;
+        }
+
+        .format-scenario {
+            background: rgba(255, 140, 0, 0.1);
+            border: 2px solid var(--accent-orange);
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+
+        .format-scenario h4 {
+            color: var(--accent-orange);
+            margin-bottom: 10px;
+        }
+
+        .format-options {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+            margin: 20px 0;
+        }
+
+        .format-option {
+            padding: 20px;
+            border-radius: 12px;
+            border: 2px solid rgba(255, 255, 255, 0.15);
+            background: rgba(255, 255, 255, 0.03);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .format-option:hover {
+            border-color: var(--accent-cyan);
+            transform: translateY(-3px);
+        }
+
+        .format-option.selected {
+            border-color: var(--accent-orange);
+            background: rgba(255, 140, 0, 0.15);
+        }
+
+        .format-option.correct {
+            border-color: var(--accent-green);
+            background: rgba(0, 255, 136, 0.15);
+        }
+
+        .format-option.incorrect {
+            border-color: #ef4444;
+            background: rgba(239, 68, 68, 0.15);
+        }
+
+        .format-option .format-icon {
+            font-size: 2em;
+            margin-bottom: 10px;
+        }
+
+        .format-option h5 {
+            color: var(--text-primary);
+            margin-bottom: 5px;
+        }
+
+        .format-option p {
+            font-size: 0.85em;
+            color: var(--text-secondary);
+            margin: 0;
+        }
+
+        /* Challenge 4: Story Generator Builder */
+        .story-builder {
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 20px;
+            padding: 30px;
+            margin: 25px 0;
+        }
+
+        .builder-section {
+            margin: 20px 0;
+            padding: 20px;
+            border-radius: 12px;
+            position: relative;
+        }
+
+        .builder-section::before {
+            content: attr(data-label);
+            position: absolute;
+            top: -12px;
+            left: 15px;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.8em;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+
+        .builder-section.instruction {
+            background: rgba(79, 172, 254, 0.1);
+            border: 2px solid rgba(79, 172, 254, 0.3);
+        }
+        .builder-section.instruction::before {
+            background: var(--accent-blue);
+            color: var(--bg-dark);
+        }
+
+        .builder-section.context {
+            background: rgba(0, 255, 136, 0.1);
+            border: 2px solid rgba(0, 255, 136, 0.3);
+        }
+        .builder-section.context::before {
+            background: var(--accent-green);
+            color: var(--bg-dark);
+        }
+
+        .builder-section.input {
+            background: rgba(255, 215, 0, 0.1);
+            border: 2px solid rgba(255, 215, 0, 0.3);
+        }
+        .builder-section.input::before {
+            background: var(--accent-gold);
+            color: var(--bg-dark);
+        }
+
+        .builder-section.output {
+            background: rgba(255, 46, 151, 0.1);
+            border: 2px solid rgba(255, 46, 151, 0.3);
+        }
+        .builder-section.output::before {
+            background: var(--accent-pink);
+            color: var(--bg-dark);
+        }
+
+        .builder-input {
+            width: 100%;
+            padding: 15px;
+            border-radius: 8px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            background: #0d0d14;
+            font-family: 'Outfit', sans-serif;
+            font-size: 1em;
+            color: var(--text-primary);
+            margin-top: 10px;
+        }
+
+        .builder-input:focus {
+            outline: none;
+            border-color: var(--accent-cyan);
+        }
+
+        .builder-input::placeholder {
+            color: rgba(160, 160, 184, 0.5);
+        }
+
+        .builder-textarea {
+            width: 100%;
+            min-height: 80px;
+            padding: 15px;
+            border-radius: 8px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            background: #0d0d14;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.95em;
+            color: var(--accent-cyan);
+            resize: vertical;
+            margin-top: 10px;
+        }
+
+        .builder-textarea:focus {
+            outline: none;
+            border-color: var(--accent-cyan);
+        }
+
+        .ingredient-picker {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 15px;
+        }
+
+        .ingredient-btn {
+            padding: 10px 18px;
+            border-radius: 20px;
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            background: rgba(255, 255, 255, 0.05);
+            font-size: 0.9em;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            color: var(--text-secondary);
+        }
+
+        .ingredient-btn:hover {
+            border-color: var(--accent-gold);
+            color: var(--accent-gold);
+        }
+
+        .ingredient-btn.selected {
+            border-color: var(--accent-gold);
+            background: rgba(255, 215, 0, 0.2);
+            color: var(--accent-gold);
+        }
+
+        /* Generated Prompt Preview */
+        .prompt-preview {
+            background: #0d0d14;
+            border: 2px solid var(--accent-cyan);
+            border-radius: 16px;
+            padding: 25px;
+            margin-top: 25px;
+        }
+
+        .prompt-preview h4 {
+            color: var(--accent-cyan);
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .prompt-preview .preview-content {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.95em;
+            color: var(--text-secondary);
+            white-space: pre-wrap;
+            line-height: 1.8;
+        }
+
+        .prompt-preview .preview-content .pillar-tag {
+            font-size: 0.75em;
+            padding: 2px 8px;
+            border-radius: 4px;
+            margin-right: 8px;
+            font-weight: 600;
+        }
+
+        .copy-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 12px 24px;
+            border-radius: 10px;
+            border: 1px solid rgba(0, 217, 255, 0.5);
+            background: rgba(0, 217, 255, 0.1);
+            color: var(--accent-cyan);
+            font-size: 0.95em;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 15px;
+        }
+
+        .copy-btn:hover {
+            background: rgba(0, 217, 255, 0.2);
+            border-color: var(--accent-cyan);
+        }
+
+        .copy-btn.copied {
+            background: rgba(0, 255, 136, 0.2);
+            border-color: var(--accent-green);
+            color: var(--accent-green);
+        }
+
+        /* AI Response Area */
+        .ai-response-area {
+            margin-top: 25px;
+            padding-top: 25px;
+            border-top: 1px dashed rgba(255, 255, 255, 0.15);
+        }
+
+        .ai-response-area label {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 0.9em;
+            font-weight: 600;
+            color: var(--accent-cyan);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 10px;
+        }
+
+        .ai-response-textarea {
+            width: 100%;
+            min-height: 150px;
+            padding: 20px;
+            border-radius: 12px;
+            border: 2px solid rgba(0, 217, 255, 0.3);
+            background: linear-gradient(135deg, #0d0d14 0%, #12121f 100%);
+            font-family: 'Outfit', sans-serif;
+            font-size: 0.95em;
+            color: var(--text-primary);
+            resize: vertical;
+            transition: all 0.3s ease;
+            line-height: 1.6;
+        }
+
+        .ai-response-textarea:focus {
+            outline: none;
+            border-color: var(--accent-cyan);
+            box-shadow: 0 0 20px rgba(0, 217, 255, 0.2);
+        }
+
+        .response-reflection {
+            display: none;
+            margin-top: 20px;
+            padding: 20px;
+            background: rgba(0, 217, 255, 0.05);
+            border: 1px solid rgba(0, 217, 255, 0.2);
+            border-radius: 12px;
+        }
+
+        .response-reflection.show {
+            display: block;
+            animation: fadeIn 0.4s ease;
+        }
+
+        .response-reflection h4 {
+            color: var(--accent-cyan);
+            margin-bottom: 15px;
+        }
+
+        .response-reflection p {
+            color: var(--text-secondary);
+            font-size: 0.95em;
+            margin: 0;
+        }
+
+        /* Challenge 5: Final Mission */
+        .final-mission {
+            background: linear-gradient(135deg, rgba(168, 85, 247, 0.15) 0%, rgba(255, 140, 0, 0.15) 100%);
+            border: 2px solid var(--accent-purple);
+            border-radius: 16px;
+            padding: 25px;
+            margin-bottom: 25px;
+        }
+
+        .final-mission h4 {
+            color: var(--accent-purple);
+            margin-bottom: 15px;
+            font-size: 1.2em;
+        }
+
+        .final-mission p {
+            color: var(--text-primary);
+            font-size: 1.05em;
+            margin: 0;
+        }
+
+        .pillar-checklist {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+            margin: 20px 0;
+            justify-content: center;
+        }
+
+        .pillar-check {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 12px 20px;
+            border-radius: 12px;
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            background: rgba(255, 255, 255, 0.05);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .pillar-check:hover {
+            transform: translateY(-3px);
+        }
+
+        .pillar-check .checkbox {
+            width: 22px;
+            height: 22px;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+        }
+
+        .pillar-check.checked .checkbox {
+            background: var(--accent-green);
+            border-color: var(--accent-green);
+        }
+
+        .pillar-check[data-pillar="instruction"] { border-color: rgba(79, 172, 254, 0.5); }
+        .pillar-check[data-pillar="context"] { border-color: rgba(0, 255, 136, 0.5); }
+        .pillar-check[data-pillar="input"] { border-color: rgba(255, 215, 0, 0.5); }
+        .pillar-check[data-pillar="output"] { border-color: rgba(255, 46, 151, 0.5); }
+
+        .pillar-check.checked[data-pillar="instruction"] { background: rgba(79, 172, 254, 0.15); border-color: var(--accent-blue); }
+        .pillar-check.checked[data-pillar="context"] { background: rgba(0, 255, 136, 0.15); border-color: var(--accent-green); }
+        .pillar-check.checked[data-pillar="input"] { background: rgba(255, 215, 0, 0.15); border-color: var(--accent-gold); }
+        .pillar-check.checked[data-pillar="output"] { background: rgba(255, 46, 151, 0.15); border-color: var(--accent-pink); }
+
+        /* Completion */
+        .completion-section {
+            text-align: center;
+            padding: 60px 40px;
+            background: linear-gradient(135deg, rgba(255, 140, 0, 0.1) 0%, rgba(0, 255, 136, 0.1) 100%);
+            border: 2px solid var(--accent-gold);
+            border-radius: 30px;
+            margin: 50px 0;
+            display: none;
+        }
+
+        .completion-section.show {
+            display: block;
+            animation: fadeIn 0.8s ease;
+        }
+
+        .completion-section h2 {
+            font-size: 2.5em;
+            margin-bottom: 20px;
+            background: linear-gradient(135deg, var(--accent-gold), var(--accent-orange));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .completion-section p {
+            font-size: 1.2em;
+            color: var(--text-secondary);
+            margin-bottom: 30px;
+        }
+
+        .trophy {
+            font-size: 5em;
+            margin-bottom: 20px;
+            animation: bounce 2s infinite;
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-15px); }
+        }
+
+        .back-link {
+            display: inline-block;
+            color: var(--accent-cyan);
+            text-decoration: none;
+            font-size: 1.1em;
+            margin-top: 20px;
+            padding: 15px 30px;
+            border: 2px solid var(--accent-cyan);
+            border-radius: 12px;
+            transition: all 0.3s ease;
+        }
+
+        .back-link:hover {
+            background: rgba(0, 217, 255, 0.1);
+            transform: translateY(-3px);
+        }
+
+        /* Responsive */
+        @media (max-width: 900px) {
+            .pillar-options {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .format-options {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 600px) {
+            header h1 {
+                font-size: 2em;
+            }
+
+            .challenge {
+                padding: 30px 20px;
+            }
+
+            .pillar-options {
+                grid-template-columns: 1fr 1fr;
+            }
+
+            .pillar-checklist {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="lesson-badge">Practice Mode 🏗️</div>
+            <h1>Build Your Prompt Blueprint</h1>
+            <p class="subtitle">Master the 4 pillars and create amazing prompts!</p>
+        </header>
+
+        <!-- Progress Bar -->
+        <div class="progress-container">
+            <div class="progress-header">
+                <span class="progress-title">🏗️ Building Progress</span>
+                <span class="progress-stats"><span id="completed-count">0</span> / 5 Challenges<button class="reset-btn" onclick="resetAllProgress()">🔄 Reset</button></span>
+            </div>
+            <div class="progress-bar">
+                <div class="progress-fill" id="progress-fill"></div>
+            </div>
+            <div class="challenge-dots">
+                <div class="challenge-dot active" data-challenge="1">1</div>
+                <div class="challenge-dot" data-challenge="2">2</div>
+                <div class="challenge-dot" data-challenge="3">3</div>
+                <div class="challenge-dot" data-challenge="4">4</div>
+                <div class="challenge-dot" data-challenge="5">5</div>
+            </div>
+        </div>
+
+        <!-- Quick Reference -->
+        <details class="pillars-reference">
+            <summary>🏛️ Quick 4 Pillars Reference (click to expand)</summary>
+            <div class="pillars-grid">
+                <div><strong>📋 Instruction</strong>What to do<br><small style="color:var(--text-secondary)">The main task</small></div>
+                <div><strong>🎭 Context</strong>Background info<br><small style="color:var(--text-secondary)">Who, why, situation</small></div>
+                <div><strong>📦 Input Data</strong>The information<br><small style="color:var(--text-secondary)">Text, code, data</small></div>
+                <div><strong>🎨 Output</strong>How to format<br><small style="color:var(--text-secondary)">List, table, length</small></div>
+            </div>
+        </details>
+
+        <!-- Challenge 1: Pillar Identifier -->
+        <div class="challenge" id="challenge-1">
+            <div class="challenge-header">
+                <div class="challenge-number">1</div>
+                <div class="challenge-title">
+                    <h2>Pillar Spotter</h2>
+                    <p>Find the 4 pillars in these prompts</p>
+                </div>
+            </div>
+            <div class="challenge-content">
+                <p>Read each prompt below and click on the text parts to identify which pillar they belong to. First select a pillar, then click the matching text!</p>
+                
+                <!-- Prompt 1 -->
+                <div class="pillar-match-card" data-card="1">
+                    <div class="prompt-text">
+                        <span class="text-segment" data-correct="context" onclick="selectSegment(this, 1)">You are a friendly science teacher for kids.</span>
+                        <span class="text-segment" data-correct="instruction" onclick="selectSegment(this, 1)">Explain how rainbows are made.</span>
+                        <span class="text-segment" data-correct="output" onclick="selectSegment(this, 1)">Use simple words and give me 3 bullet points.</span>
+                    </div>
+                    <div class="pillar-options">
+                        <div class="pillar-option" data-pillar="instruction" onclick="selectPillar(this, 1)">
+                            <div class="icon">📋</div>
+                            <div class="label">Instruction</div>
+                        </div>
+                        <div class="pillar-option" data-pillar="context" onclick="selectPillar(this, 1)">
+                            <div class="icon">🎭</div>
+                            <div class="label">Context</div>
+                        </div>
+                        <div class="pillar-option" data-pillar="input" onclick="selectPillar(this, 1)">
+                            <div class="icon">📦</div>
+                            <div class="label">Input Data</div>
+                        </div>
+                        <div class="pillar-option" data-pillar="output" onclick="selectPillar(this, 1)">
+                            <div class="icon">🎨</div>
+                            <div class="label">Output</div>
+                        </div>
+                    </div>
+                    <div id="feedback-1" class="feedback"></div>
+                </div>
+
+                <!-- Prompt 2 -->
+                <div class="pillar-match-card" data-card="2">
+                    <div class="prompt-text">
+                        <span class="text-segment" data-correct="instruction" onclick="selectSegment(this, 2)">Translate the following text to Spanish:</span>
+                        <span class="text-segment" data-correct="input" onclick="selectSegment(this, 2)">### Hello, my name is Alex and I love pizza! ###</span>
+                        <span class="text-segment" data-correct="output" onclick="selectSegment(this, 2)">Show the translation in a table with English on the left and Spanish on the right.</span>
+                    </div>
+                    <div class="pillar-options">
+                        <div class="pillar-option" data-pillar="instruction" onclick="selectPillar(this, 2)">
+                            <div class="icon">📋</div>
+                            <div class="label">Instruction</div>
+                        </div>
+                        <div class="pillar-option" data-pillar="context" onclick="selectPillar(this, 2)">
+                            <div class="icon">🎭</div>
+                            <div class="label">Context</div>
+                        </div>
+                        <div class="pillar-option" data-pillar="input" onclick="selectPillar(this, 2)">
+                            <div class="icon">📦</div>
+                            <div class="label">Input Data</div>
+                        </div>
+                        <div class="pillar-option" data-pillar="output" onclick="selectPillar(this, 2)">
+                            <div class="icon">🎨</div>
+                            <div class="label">Output</div>
+                        </div>
+                    </div>
+                    <div id="feedback-2" class="feedback"></div>
+                </div>
+
+                <div style="text-align: center; margin-top: 25px;">
+                    <button class="btn btn-primary" onclick="checkChallenge1()">✅ Check My Answers</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Challenge 2: Delimiter Doctor -->
+        <div class="challenge" id="challenge-2">
+            <div class="challenge-header">
+                <div class="challenge-number">2</div>
+                <div class="challenge-title">
+                    <h2>Delimiter Doctor</h2>
+                    <p>Fix these messy prompts with delimiters</p>
+                </div>
+            </div>
+            <div class="challenge-content">
+                <p>These prompts are confusing because they don't have delimiters! Add ### or """ to make them clear.</p>
+                
+                <div class="delimiter-fix-card" data-fix="1">
+                    <div class="bad-prompt">
+                        <div class="label">❌ Confusing Prompt</div>
+                        <div class="prompt">Check this code for bugs my_list = [1, 2, 3] print(my_list[5]) tell me what's wrong</div>
+                    </div>
+                    
+                    <label style="display: block; font-size: 0.9em; font-weight: 600; color: var(--accent-green); margin-bottom: 10px;">✨ Your Fixed Prompt (add delimiters!)</label>
+                    <textarea class="fix-textarea" id="fix-1" placeholder="Rewrite the prompt above with ### or &quot;&quot;&quot; to separate the instruction from the code..."></textarea>
+                    
+                    <div style="display: flex; gap: 10px; flex-wrap: wrap; margin-top: 15px;">
+                        <button class="btn btn-secondary" onclick="showHint('hint-fix-1')">💡 Hint</button>
+                        <button class="btn btn-secondary" onclick="showSolution('solution-fix-1')">👀 See Answer</button>
+                    </div>
+                    
+                    <div class="hint-box" id="hint-fix-1">
+                        <h4>💡 Hint</h4>
+                        <p>Put the code between ### marks so the AI knows where the instruction ends and where the code begins!</p>
+                    </div>
+                    
+                    <div class="solution-box" id="solution-fix-1">
+                        <h4>✅ Example Solution</h4>
+                        <div class="prompt">Check this code for bugs:
+
+###
+my_list = [1, 2, 3]
+print(my_list[5])
+###
+
+Tell me what's wrong.</div>
+                    </div>
+                </div>
+
+                <div class="delimiter-fix-card" data-fix="2">
+                    <div class="bad-prompt">
+                        <div class="label">❌ Confusing Prompt</div>
+                        <div class="prompt">Summarize this story The little robot found a magical key in the garden. The key glowed blue and opened a door to a secret world. give me 2 sentences</div>
+                    </div>
+                    
+                    <label style="display: block; font-size: 0.9em; font-weight: 600; color: var(--accent-green); margin-bottom: 10px;">✨ Your Fixed Prompt</label>
+                    <textarea class="fix-textarea" id="fix-2" placeholder="Use delimiters to separate the story from the instructions..."></textarea>
+                    
+                    <div style="display: flex; gap: 10px; flex-wrap: wrap; margin-top: 15px;">
+                        <button class="btn btn-secondary" onclick="showHint('hint-fix-2')">💡 Hint</button>
+                        <button class="btn btn-secondary" onclick="showSolution('solution-fix-2')">👀 See Answer</button>
+                    </div>
+                    
+                    <div class="hint-box" id="hint-fix-2">
+                        <h4>💡 Hint</h4>
+                        <p>Try using """ (triple quotes) around the story since it's text content!</p>
+                    </div>
+                    
+                    <div class="solution-box" id="solution-fix-2">
+                        <h4>✅ Example Solution</h4>
+                        <div class="prompt">Summarize this story:
+
+"""
+The little robot found a magical key in the garden. The key glowed blue and opened a door to a secret world.
+"""
+
+Give me 2 sentences.</div>
+                    </div>
+                </div>
+
+                <div style="text-align: center; margin-top: 25px;">
+                    <button class="btn btn-primary" onclick="completeChallenge2()">✅ I've Fixed Both Prompts</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Challenge 3: Format Selector -->
+        <div class="challenge" id="challenge-3">
+            <div class="challenge-header">
+                <div class="challenge-number">3</div>
+                <div class="challenge-title">
+                    <h2>Format Picker</h2>
+                    <p>Choose the best output format for each task</p>
+                </div>
+            </div>
+            <div class="challenge-content">
+                <p>For each situation, pick the output format that makes the most sense!</p>
+                
+                <!-- Scenario 1 -->
+                <div class="format-challenge" data-format="1">
+                    <div class="format-scenario">
+                        <h4>📝 Scenario 1</h4>
+                        <p>You want the AI to explain the steps to make a paper airplane, one step at a time.</p>
+                    </div>
+                    <div class="format-options">
+                        <div class="format-option" data-answer="numbered" onclick="selectFormat(this, 1, 'numbered')">
+                            <div class="format-icon">🔢</div>
+                            <h5>Numbered List</h5>
+                            <p>1. First... 2. Then... 3. Next...</p>
+                        </div>
+                        <div class="format-option" data-answer="table" onclick="selectFormat(this, 1, 'table')">
+                            <div class="format-icon">📊</div>
+                            <h5>Table</h5>
+                            <p>Rows and columns of info</p>
+                        </div>
+                        <div class="format-option" data-answer="paragraph" onclick="selectFormat(this, 1, 'paragraph')">
+                            <div class="format-icon">📄</div>
+                            <h5>Paragraph</h5>
+                            <p>Long flowing text</p>
+                        </div>
+                        <div class="format-option" data-answer="bullets" onclick="selectFormat(this, 1, 'bullets')">
+                            <div class="format-icon">📝</div>
+                            <h5>Bullet Points</h5>
+                            <p>• Point one • Point two</p>
+                        </div>
+                    </div>
+                    <div id="format-feedback-1" class="feedback"></div>
+                </div>
+
+                <!-- Scenario 2 -->
+                <div class="format-challenge" data-format="2">
+                    <div class="format-scenario">
+                        <h4>📝 Scenario 2</h4>
+                        <p>You want to compare 3 different programming languages (Python, JavaScript, Scratch) by showing their difficulty level, what they're used for, and if they're free.</p>
+                    </div>
+                    <div class="format-options">
+                        <div class="format-option" data-answer="numbered" onclick="selectFormat(this, 2, 'numbered')">
+                            <div class="format-icon">🔢</div>
+                            <h5>Numbered List</h5>
+                            <p>1. First... 2. Then... 3. Next...</p>
+                        </div>
+                        <div class="format-option" data-answer="table" onclick="selectFormat(this, 2, 'table')">
+                            <div class="format-icon">📊</div>
+                            <h5>Table</h5>
+                            <p>Rows and columns of info</p>
+                        </div>
+                        <div class="format-option" data-answer="paragraph" onclick="selectFormat(this, 2, 'paragraph')">
+                            <div class="format-icon">📄</div>
+                            <h5>Paragraph</h5>
+                            <p>Long flowing text</p>
+                        </div>
+                        <div class="format-option" data-answer="bullets" onclick="selectFormat(this, 2, 'bullets')">
+                            <div class="format-icon">📝</div>
+                            <h5>Bullet Points</h5>
+                            <p>• Point one • Point two</p>
+                        </div>
+                    </div>
+                    <div id="format-feedback-2" class="feedback"></div>
+                </div>
+
+                <!-- Scenario 3 -->
+                <div class="format-challenge" data-format="3">
+                    <div class="format-scenario">
+                        <h4>📝 Scenario 3</h4>
+                        <p>You want to know 5 fun facts about dolphins—just quick facts, no particular order needed.</p>
+                    </div>
+                    <div class="format-options">
+                        <div class="format-option" data-answer="numbered" onclick="selectFormat(this, 3, 'numbered')">
+                            <div class="format-icon">🔢</div>
+                            <h5>Numbered List</h5>
+                            <p>1. First... 2. Then... 3. Next...</p>
+                        </div>
+                        <div class="format-option" data-answer="table" onclick="selectFormat(this, 3, 'table')">
+                            <div class="format-icon">📊</div>
+                            <h5>Table</h5>
+                            <p>Rows and columns of info</p>
+                        </div>
+                        <div class="format-option" data-answer="paragraph" onclick="selectFormat(this, 3, 'paragraph')">
+                            <div class="format-icon">📄</div>
+                            <h5>Paragraph</h5>
+                            <p>Long flowing text</p>
+                        </div>
+                        <div class="format-option" data-answer="bullets" onclick="selectFormat(this, 3, 'bullets')">
+                            <div class="format-icon">📝</div>
+                            <h5>Bullet Points</h5>
+                            <p>• Point one • Point two</p>
+                        </div>
+                    </div>
+                    <div id="format-feedback-3" class="feedback"></div>
+                </div>
+
+                <div style="text-align: center; margin-top: 25px;">
+                    <button class="btn btn-primary" onclick="checkChallenge3()">✅ Check My Format Picks</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Challenge 4: Story Generator Builder -->
+        <div class="challenge" id="challenge-4">
+            <div class="challenge-header">
+                <div class="challenge-number">4</div>
+                <div class="challenge-title">
+                    <h2>🎭 Story Generator Builder</h2>
+                    <p>Build a reusable story prompt using all 4 pillars!</p>
+                </div>
+            </div>
+            <div class="challenge-content">
+                <p>Now for the fun part! Build a complete Story Generator prompt. Fill in each section and watch your blueprint come together!</p>
+                
+                <div class="story-builder">
+                    <!-- Context Section -->
+                    <div class="builder-section context" data-label="🎭 Context">
+                        <p style="color: var(--text-secondary); font-size: 0.95em; margin: 0 0 10px 0;">Who should the AI pretend to be?</p>
+                        <input type="text" class="builder-input" id="story-context" placeholder="Example: You are a creative children's book author who writes fun, exciting adventures..." oninput="updateStoryPreview()">
+                    </div>
+
+                    <!-- Instruction Section -->
+                    <div class="builder-section instruction" data-label="📋 Instruction">
+                        <p style="color: var(--text-secondary); font-size: 0.95em; margin: 0 0 10px 0;">What should the AI do?</p>
+                        <input type="text" class="builder-input" id="story-instruction" placeholder="Example: Write a short adventure story using the elements I give you below..." oninput="updateStoryPreview()">
+                    </div>
+
+                    <!-- Input Data Section -->
+                    <div class="builder-section input" data-label="📦 Input Data">
+                        <p style="color: var(--text-secondary); font-size: 0.95em; margin: 0 0 10px 0;">Pick your story ingredients! (Click to select)</p>
+                        
+                        <p style="color: var(--accent-gold); font-size: 0.85em; margin: 15px 0 8px 0;">👤 Main Character:</p>
+                        <div class="ingredient-picker" data-category="character">
+                            <button class="ingredient-btn" onclick="toggleIngredient(this)">🤖 A brave robot</button>
+                            <button class="ingredient-btn" onclick="toggleIngredient(this)">🧙 A young wizard</button>
+                            <button class="ingredient-btn" onclick="toggleIngredient(this)">🐱 A talking cat</button>
+                            <button class="ingredient-btn" onclick="toggleIngredient(this)">👧 A curious girl</button>
+                        </div>
+
+                        <p style="color: var(--accent-gold); font-size: 0.85em; margin: 15px 0 8px 0;">🌍 Setting:</p>
+                        <div class="ingredient-picker" data-category="setting">
+                            <button class="ingredient-btn" onclick="toggleIngredient(this)">🏰 A magical castle</button>
+                            <button class="ingredient-btn" onclick="toggleIngredient(this)">🌲 An enchanted forest</button>
+                            <button class="ingredient-btn" onclick="toggleIngredient(this)">🚀 A space station</button>
+                            <button class="ingredient-btn" onclick="toggleIngredient(this)">🏝️ A hidden island</button>
+                        </div>
+
+                        <p style="color: var(--accent-gold); font-size: 0.85em; margin: 15px 0 8px 0;">⚡ Problem to solve:</p>
+                        <div class="ingredient-picker" data-category="problem">
+                            <button class="ingredient-btn" onclick="toggleIngredient(this)">🔑 Find a lost treasure</button>
+                            <button class="ingredient-btn" onclick="toggleIngredient(this)">🐉 Stop a friendly dragon's hiccups</button>
+                            <button class="ingredient-btn" onclick="toggleIngredient(this)">⭐ Catch a falling star</button>
+                            <button class="ingredient-btn" onclick="toggleIngredient(this)">🎵 Solve a musical riddle</button>
+                        </div>
+                    </div>
+
+                    <!-- Output Section -->
+                    <div class="builder-section output" data-label="🎨 Output Format">
+                        <p style="color: var(--text-secondary); font-size: 0.95em; margin: 0 0 10px 0;">How should the story be formatted?</p>
+                        <input type="text" class="builder-input" id="story-output" placeholder="Example: Write exactly 5 sentences with a happy ending..." oninput="updateStoryPreview()">
+                    </div>
+                </div>
+
+                <!-- Live Preview -->
+                <div class="prompt-preview">
+                    <h4>📜 Your Generated Prompt</h4>
+                    <div class="preview-content" id="story-preview">
+                        <span style="color: rgba(160, 160, 184, 0.5); font-style: italic;">Fill in the sections above to see your prompt appear here...</span>
+                    </div>
+                    <button class="copy-btn" onclick="copyStoryPrompt()">📋 Copy Prompt</button>
+                </div>
+
+                <!-- AI Response Area -->
+                <div class="ai-response-area">
+                    <label><span style="font-size: 1.2em;">🤖</span> Test It! Paste AI's Story Here</label>
+                    <textarea class="ai-response-textarea" id="story-response" placeholder="1. Copy your prompt above&#10;2. Send it to ChatGPT, Gemini, or Claude&#10;3. Paste the story the AI created here!&#10;&#10;Did your blueprint create the story you wanted?"></textarea>
+                    <div class="response-reflection" id="story-reflection">
+                        <h4>🎯 Story Check!</h4>
+                        <p>Look at the AI's story and check:<br><br>
+                        ✓ Did it use your character?<br>
+                        ✓ Is it set in the right place?<br>
+                        ✓ Does it have the problem you picked?<br>
+                        ✓ Is it the right length you asked for?<br><br>
+                        <em>If something is missing, what would you change in your prompt?</em></p>
+                    </div>
+                </div>
+
+                <div style="text-align: center; margin-top: 25px;">
+                    <button class="btn btn-primary" onclick="completeChallenge4()">✅ I Built My Story Generator!</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Challenge 5: Final Mission -->
+        <div class="challenge" id="challenge-5">
+            <div class="challenge-header">
+                <div class="challenge-number">5</div>
+                <div class="challenge-title">
+                    <h2>Final Mission: Blueprint Master</h2>
+                    <p>Create your own prompt from scratch!</p>
+                </div>
+            </div>
+            <div class="challenge-content">
+                <div class="final-mission">
+                    <h4>🎬 Your Challenge</h4>
+                    <p>Create a prompt that asks the AI to make a <strong>"Recipe Card"</strong> for any imaginary magical food! Your prompt must use all 4 pillars AND delimiters. Be creative—what crazy magical dish will you create? 🧁✨</p>
+                </div>
+
+                <label style="display: block; font-size: 0.9em; font-weight: 600; color: var(--accent-purple); text-transform: uppercase; margin-bottom: 10px;">✨ Your Complete Blueprint Prompt</label>
+                <button class="copy-btn" onclick="copyFinalPrompt()" style="margin-bottom: 15px;">📋 Copy Prompt</button>
+                <textarea class="fix-textarea" id="final-prompt" style="min-height: 200px;" placeholder="Write your complete prompt here using all 4 pillars and delimiters...&#10;&#10;Remember to include:&#10;📋 Instruction - What should the AI do?&#10;🎭 Context - Who is the AI? Who is this for?&#10;📦 Input Data - What food to create (use ### or &quot;&quot;&quot;)&#10;🎨 Output - What format? How long?&#10;&#10;Example magical foods: Rainbow Soup, Cloud Cookies, Star Dust Smoothie..."></textarea>
+
+                <p style="text-align: center; color: var(--text-secondary); font-size: 0.95em; margin: 20px 0 10px;">✅ Check off each pillar you included:</p>
+                <div class="pillar-checklist" id="final-checklist">
+                    <div class="pillar-check" data-pillar="instruction" onclick="togglePillarCheck(this)">
+                        <span class="checkbox"></span>
+                        <span>📋 Instruction</span>
+                    </div>
+                    <div class="pillar-check" data-pillar="context" onclick="togglePillarCheck(this)">
+                        <span class="checkbox"></span>
+                        <span>🎭 Context</span>
+                    </div>
+                    <div class="pillar-check" data-pillar="input" onclick="togglePillarCheck(this)">
+                        <span class="checkbox"></span>
+                        <span>📦 Input Data</span>
+                    </div>
+                    <div class="pillar-check" data-pillar="output" onclick="togglePillarCheck(this)">
+                        <span class="checkbox"></span>
+                        <span>🎨 Output</span>
+                    </div>
+                </div>
+
+                <!-- AI Response Area -->
+                <div class="ai-response-area">
+                    <label><span style="font-size: 1.2em;">🤖</span> Test Your Blueprint! Paste AI's Response</label>
+                    <textarea class="ai-response-textarea" id="final-response" placeholder="Copy your prompt, send it to an AI, and paste the magical recipe card here!&#10;&#10;Does the AI follow your blueprint exactly?"></textarea>
+                    <div class="response-reflection" id="final-reflection">
+                        <h4>🏆 Blueprint Analysis</h4>
+                        <p>Amazing work! Look at what the AI created:<br><br>
+                        ✓ Did it act like the character you set in Context?<br>
+                        ✓ Did it follow your Instruction correctly?<br>
+                        ✓ Did it use the Input Data you provided?<br>
+                        ✓ Is the format what you asked for in Output?<br><br>
+                        <strong>You've learned to build prompts like an architect!</strong></p>
+                    </div>
+                </div>
+
+                <div style="text-align: center; margin-top: 25px;">
+                    <button class="btn btn-primary" onclick="completeFinalChallenge()">🏆 Complete Final Mission!</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Completion Section -->
+        <div class="completion-section" id="completion">
+            <div class="trophy">🏗️</div>
+            <h2>Blueprint Master!</h2>
+            <p>You've completed all 5 challenges and mastered the 4 Pillars!</p>
+            <p style="color: var(--accent-gold);">Now you can build amazing prompts that work every time.</p>
+            <a href="Lesson_2_Theory.html" class="back-link">← Back to Theory</a>
+        </div>
+    </div>
+
+    <script>
+        // State
+        let completedChallenges = new Set();
+        let selectedPillar = { 1: null, 2: null };
+        let matchedSegments = { 1: 0, 2: 0 };
+        let formatAnswers = { 1: null, 2: null, 3: null };
+        let correctFormats = { 1: 'numbered', 2: 'table', 3: 'bullets' };
+        let storyIngredients = { character: null, setting: null, problem: null };
+
+        // Progress functions
+        function updateProgress() {
+            const count = completedChallenges.size;
+            document.getElementById('completed-count').textContent = count;
+            document.getElementById('progress-fill').style.width = `${(count / 5) * 100}%`;
+            
+            document.querySelectorAll('.challenge-dot').forEach((dot, index) => {
+                if (completedChallenges.has(index + 1)) {
+                    dot.classList.add('completed');
+                    dot.classList.remove('active');
+                } else if (index + 1 === Math.min(...[1,2,3,4,5].filter(n => !completedChallenges.has(n)))) {
+                    dot.classList.add('active');
+                }
+            });
+            
+            if (count === 5) {
+                document.getElementById('completion').classList.add('show');
+            }
+            
+            localStorage.setItem('blueprint-progress', JSON.stringify([...completedChallenges]));
+        }
+
+        function loadProgress() {
+            const saved = localStorage.getItem('blueprint-progress');
+            if (saved) {
+                completedChallenges = new Set(JSON.parse(saved));
+                updateProgress();
+            }
+        }
+
+        function resetAllProgress() {
+            if (confirm('🔄 Reset all progress? This cannot be undone!')) {
+                localStorage.removeItem('blueprint-progress');
+                location.reload();
+            }
+        }
+
+        // Challenge 1: Pillar Spotter
+        function selectPillar(element, cardNum) {
+            const card = document.querySelector(`.pillar-match-card[data-card="${cardNum}"]`);
+            card.querySelectorAll('.pillar-option').forEach(opt => opt.classList.remove('selected'));
+            element.classList.add('selected');
+            selectedPillar[cardNum] = element.dataset.pillar;
+        }
+
+        function selectSegment(element, cardNum) {
+            if (!selectedPillar[cardNum] || element.classList.contains('correct')) return;
+            
+            const correctPillar = element.dataset.correct;
+            
+            if (selectedPillar[cardNum] === correctPillar) {
+                element.classList.add('correct');
+                element.classList.remove('selected');
+                matchedSegments[cardNum]++;
+                
+                // Add highlight class based on pillar
+                element.classList.add(`highlight-${correctPillar}`);
+            } else {
+                element.classList.add('incorrect');
+                setTimeout(() => element.classList.remove('incorrect'), 500);
+            }
+            
+            // Reset selection
+            const card = document.querySelector(`.pillar-match-card[data-card="${cardNum}"]`);
+            card.querySelectorAll('.pillar-option').forEach(opt => opt.classList.remove('selected'));
+            selectedPillar[cardNum] = null;
+        }
+
+        function checkChallenge1() {
+            const total1 = document.querySelectorAll('.pillar-match-card[data-card="1"] .text-segment').length;
+            const total2 = document.querySelectorAll('.pillar-match-card[data-card="2"] .text-segment').length;
+            
+            if (matchedSegments[1] === total1 && matchedSegments[2] === total2) {
+                completedChallenges.add(1);
+                updateProgress();
+                alert('🎉 Perfect! You identified all the pillars correctly! Challenge Complete!');
+            } else {
+                const remaining = (total1 - matchedSegments[1]) + (total2 - matchedSegments[2]);
+                alert(`Keep going! You have ${remaining} more segments to match. Select a pillar, then click the matching text.`);
+            }
+        }
+
+        // Challenge 2: Delimiter Doctor
+        function showHint(id) {
+            document.getElementById(id).classList.toggle('show');
+        }
+
+        function showSolution(id) {
+            document.getElementById(id).classList.toggle('show');
+        }
+
+        function completeChallenge2() {
+            const fix1 = document.getElementById('fix-1').value;
+            const fix2 = document.getElementById('fix-2').value;
+            
+            if (fix1.length < 30 || fix2.length < 30) {
+                alert('Please write longer, complete prompts with delimiters for both exercises!');
+                return;
+            }
+            
+            // Check if they used delimiters
+            const hasDelimiters1 = fix1.includes('###') || fix1.includes('"""');
+            const hasDelimiters2 = fix2.includes('###') || fix2.includes('"""');
+            
+            if (!hasDelimiters1 || !hasDelimiters2) {
+                alert('Remember to use delimiters (### or """) to separate the different parts of your prompt!');
+                return;
+            }
+            
+            completedChallenges.add(2);
+            updateProgress();
+            alert('🎉 Great job! You\'ve learned to use delimiters to make prompts clearer! Challenge Complete!');
+        }
+
+        // Challenge 3: Format Picker
+        function selectFormat(element, scenarioNum, answer) {
+            const challenge = document.querySelector(`.format-challenge[data-format="${scenarioNum}"]`);
+            challenge.querySelectorAll('.format-option').forEach(opt => {
+                opt.classList.remove('selected', 'correct', 'incorrect');
+            });
+            element.classList.add('selected');
+            formatAnswers[scenarioNum] = answer;
+        }
+
+        function checkChallenge3() {
+            let allCorrect = true;
+            let correctCount = 0;
+            
+            for (let i = 1; i <= 3; i++) {
+                const challenge = document.querySelector(`.format-challenge[data-format="${i}"]`);
+                const feedback = document.getElementById(`format-feedback-${i}`);
+                const selected = challenge.querySelector('.format-option.selected');
+                
+                if (!selected) {
+                    feedback.className = 'feedback show error';
+                    feedback.innerHTML = '❌ Please select a format!';
+                    allCorrect = false;
+                    continue;
+                }
+                
+                if (formatAnswers[i] === correctFormats[i]) {
+                    selected.classList.add('correct');
+                    feedback.className = 'feedback show success';
+                    feedback.innerHTML = '✅ Perfect choice!';
+                    correctCount++;
+                } else {
+                    selected.classList.add('incorrect');
+                    feedback.className = 'feedback show error';
+                    const correctNames = { 'numbered': 'Numbered List', 'table': 'Table', 'bullets': 'Bullet Points', 'paragraph': 'Paragraph' };
+                    feedback.innerHTML = `❌ The best choice would be ${correctNames[correctFormats[i]]}`;
+                    allCorrect = false;
+                }
+            }
+            
+            if (correctCount >= 2) {
+                completedChallenges.add(3);
+                updateProgress();
+                if (allCorrect) {
+                    alert('🎉 Perfect! You picked the best format for every scenario! Challenge Complete!');
+                } else {
+                    alert('🎉 Good job! You got most of them right! Challenge Complete!');
+                }
+            }
+        }
+
+        // Challenge 4: Story Generator
+        function toggleIngredient(element) {
+            const picker = element.parentElement;
+            const category = picker.dataset.category;
+            
+            picker.querySelectorAll('.ingredient-btn').forEach(btn => btn.classList.remove('selected'));
+            element.classList.add('selected');
+            storyIngredients[category] = element.textContent.trim();
+            
+            updateStoryPreview();
+        }
+
+        function updateStoryPreview() {
+            const context = document.getElementById('story-context').value;
+            const instruction = document.getElementById('story-instruction').value;
+            const output = document.getElementById('story-output').value;
+            
+            let inputData = '';
+            if (storyIngredients.character) inputData += `Character: ${storyIngredients.character}\n`;
+            if (storyIngredients.setting) inputData += `Setting: ${storyIngredients.setting}\n`;
+            if (storyIngredients.problem) inputData += `Problem: ${storyIngredients.problem}`;
+            
+            const preview = document.getElementById('story-preview');
+            
+            if (!context && !instruction && !inputData && !output) {
+                preview.innerHTML = '<span style="color: rgba(160, 160, 184, 0.5); font-style: italic;">Fill in the sections above to see your prompt appear here...</span>';
+                return;
+            }
+            
+            let promptText = '';
+            if (context) promptText += `${context}\n\n`;
+            if (instruction) promptText += `${instruction}\n\n`;
+            if (inputData) promptText += `###\n${inputData}\n###\n\n`;
+            if (output) promptText += output;
+            
+            preview.textContent = promptText;
+        }
+
+        function copyStoryPrompt() {
+            const preview = document.getElementById('story-preview').textContent;
+            if (!preview || preview.includes('Fill in the sections')) {
+                alert('Please build your prompt first!');
+                return;
+            }
+            
+            navigator.clipboard.writeText(preview).then(() => {
+                const btn = event.target;
+                btn.textContent = '✅ Copied!';
+                btn.classList.add('copied');
+                setTimeout(() => {
+                    btn.textContent = '📋 Copy Prompt';
+                    btn.classList.remove('copied');
+                }, 2000);
+            });
+        }
+
+        function completeChallenge4() {
+            const context = document.getElementById('story-context').value;
+            const instruction = document.getElementById('story-instruction').value;
+            const output = document.getElementById('story-output').value;
+            
+            if (!context || !instruction || !output) {
+                alert('Please fill in all sections: Context, Instruction, and Output!');
+                return;
+            }
+            
+            if (!storyIngredients.character || !storyIngredients.setting || !storyIngredients.problem) {
+                alert('Please pick story ingredients for Character, Setting, and Problem!');
+                return;
+            }
+            
+            completedChallenges.add(4);
+            updateProgress();
+            
+            const response = document.getElementById('story-response').value;
+            if (response.length > 50) {
+                document.getElementById('story-reflection').classList.add('show');
+                alert('🎉 Amazing! You built a complete Story Generator AND tested it! Challenge Complete!');
+            } else {
+                alert('🎉 Great job building your Story Generator! Try copying and testing it with a real AI to see the magic happen!');
+            }
+        }
+
+        // Challenge 5: Final Mission
+        function togglePillarCheck(element) {
+            element.classList.toggle('checked');
+            const checkbox = element.querySelector('.checkbox');
+            checkbox.innerHTML = element.classList.contains('checked') ? '✓' : '';
+        }
+
+        function copyFinalPrompt() {
+            const prompt = document.getElementById('final-prompt').value;
+            if (!prompt) {
+                alert('Please write your prompt first!');
+                return;
+            }
+            
+            navigator.clipboard.writeText(prompt).then(() => {
+                const btn = event.target;
+                btn.textContent = '✅ Copied!';
+                btn.classList.add('copied');
+                setTimeout(() => {
+                    btn.textContent = '📋 Copy Prompt';
+                    btn.classList.remove('copied');
+                }, 2000);
+            });
+        }
+
+        function completeFinalChallenge() {
+            const prompt = document.getElementById('final-prompt').value;
+            const checklist = document.getElementById('final-checklist');
+            const checkedItems = checklist.querySelectorAll('.pillar-check.checked').length;
+            
+            if (prompt.length < 50) {
+                alert('Your prompt is too short! Make sure to include all 4 pillars.');
+                return;
+            }
+            
+            if (checkedItems < 4) {
+                alert('Please check off all 4 pillars to confirm you included them!');
+                return;
+            }
+            
+            // Check for delimiters
+            if (!prompt.includes('###') && !prompt.includes('"""')) {
+                alert('Don\'t forget to use delimiters (### or """) to separate your input data!');
+                return;
+            }
+            
+            completedChallenges.add(5);
+            updateProgress();
+            
+            const response = document.getElementById('final-response').value;
+            if (response.length > 50) {
+                document.getElementById('final-reflection').classList.add('show');
+            }
+            
+            alert('🏆 CONGRATULATIONS! You\'ve mastered the Architect\'s Blueprint!\n\nYou now know how to:\n✓ Use all 4 Pillars\n✓ Add delimiters for clarity\n✓ Choose the right output format\n✓ Build prompts that work every time!');
+        }
+
+        // AI Response watchers
+        document.querySelectorAll('.ai-response-textarea').forEach(textarea => {
+            textarea.addEventListener('input', function() {
+                const id = this.id;
+                if (id === 'story-response' && this.value.length > 50) {
+                    document.getElementById('story-reflection').classList.add('show');
+                }
+                if (id === 'final-response' && this.value.length > 50) {
+                    document.getElementById('final-reflection').classList.add('show');
+                }
+            });
+        });
+
+        // Initialize
+        loadProgress();
+    </script>
+</body>
+</html>
+
